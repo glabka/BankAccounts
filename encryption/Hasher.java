@@ -1,5 +1,7 @@
 package encryption;
 
+import customExceptions.NoSuchAlgorithmFoundException;
+
 public abstract class Hasher {
 	
 	private static Hasher hasher = new SHA256Hasher();
@@ -7,5 +9,5 @@ public abstract class Hasher {
 		return hasher;
 	}
 	
-	public abstract byte[] hash(String stringForHashing) throws Exception;
+	public abstract byte[] hash(String stringForHashing) throws NoSuchAlgorithmFoundException;
 }

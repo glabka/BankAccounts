@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import bankAccount.BankAccount;
+import customExceptions.NoSuchAlgorithmFoundException;
 import domain.BankAccountOwner;
 import domain.BankCode;
 import encryption.BasicPasswordSalter;
@@ -31,7 +32,7 @@ public class UserAccount {
 	private List<BankAccount> bankAccounts;
 
 	private UserAccount(int userAccountID, BankCode bc, BankAccountOwner accountOwner, String username, String password,
-			String emailAddress, int phoneNumber) throws Exception {
+			String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
 		bankCode = bc;
 		this.accountOwner = accountOwner;
 	
@@ -60,10 +61,11 @@ public class UserAccount {
 	 * @param emailAddress
 	 * @param phoneNumber
 	 * @return
-	 * @throws Exception
+	 * @throws NoSuchAlgorithmFoundException is thrown in case an appropriate hash algorithm was not found
+	 * when hashing password/username
 	 */
 	public UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, String username, String password,
-			String emailAddress, int phoneNumber) throws Exception {
+			String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
 		UserAccount userAccount = userAccounts.get(userAccountID);
 		if(userAccount == null) {
 			return new UserAccount(userAccountID, bc, accountOwner, username, password,emailAddress, phoneNumber);
@@ -95,26 +97,26 @@ public class UserAccount {
 		}
 	}
 
-	public void changeUsername(String username) throws Exception {
+	public void changeUsername(String username) throws NoSuchAlgorithmFoundException {
 		this.usernameHash = hashUsername(username);
 	}
 	
-	private byte[] hashUsername(String username) throws Exception {
+	private byte[] hashUsername(String username) throws NoSuchAlgorithmFoundException {
 		return Hasher.getHasherInUse().hash(username);
 	}
 
-	public void changePassword(String password) throws Exception {
+	public void changePassword(String password) throws NoSuchAlgorithmFoundException {
 		this.passwordHash = hashPassword(password);
 	}
 	
-	private byte[] hashPassword(String password) throws Exception {
+	private byte[] hashPassword(String password) throws NoSuchAlgorithmFoundException {
 		PasswordSalter passwordSalter = new BasicPasswordSalter();
 		SaltGenerator saltGenerator = new RandomASCIISaltGenerator();
 		this.salt = saltGenerator.generateSalt(10);
 		return Hasher.getHasherInUse().hash(passwordSalter.saltPassword(password, this.salt));
 	}
 
-	public boolean verifyUsername(String username) throws Exception {
+	public boolean verifyUsername(String username) throws NoSuchAlgorithmFoundException {
 		byte[] usernameHash = hashUsername(username);
 		return Arrays.equals(usernameHash, this.usernameHash);
 	}

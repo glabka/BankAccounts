@@ -1,7 +1,6 @@
 package idManagers;
 
-import java.sql.SQLException;
-
+import customExceptions.DatabaseException;
 import database.MySqlDatabaseConnectionManager;
 
 public class MySqlStaticDbIDAssigner extends IDAssigner {
@@ -15,7 +14,7 @@ public class MySqlStaticDbIDAssigner extends IDAssigner {
 		} catch (ClassNotFoundException e) {
 			personIdLoadingSuccesful = false;
 			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (DatabaseException e) {
 			personIdLoadingSuccesful = false;
 			e.printStackTrace();
 		}
@@ -38,6 +37,7 @@ public class MySqlStaticDbIDAssigner extends IDAssigner {
 		// TODO implement method
 		return 0;
 	}
+	
 	@Override
 	public int getPersonID() {
 		return personId++;
