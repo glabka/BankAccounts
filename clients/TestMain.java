@@ -8,8 +8,8 @@ import domain.Person;
 public class TestMain {
 
 	public static void main(String[] args) throws Exception {
-//		Person p1 = new Person("Helen", null, "Miowic");
-//		Person p2 = new Person("Adam", null, "Green");
+		Person p1 = Person.getIstance(0, "Helen", null, "Miowic");
+		Person p2 =  Person.getIstance(1,"Adam", null, "Green");
 //		System.out.println("p1.id = " + p1.getId());
 //		System.out.println("p2.id = " + p2.getId());
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
@@ -20,6 +20,8 @@ public class TestMain {
 //		Person p = Person.getInstance(0);
 //		if(p == null) {
 //			System.out.println("p == null");
+//		} else {
+//			System.out.println(p);
 //		}
 
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
@@ -32,7 +34,13 @@ public class TestMain {
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 //		MySqlDatabaseSetup.setUpDatabse(dcm, false);
 		
+//		SaltGenerator saltGen = new RandomASCIISaltGenerator1();
+//		System.out.println(saltGen.generateSalt(10));
 		
+//		PasswordSalter ps = new BasicPasswordSalter();
+//		System.out.println(ps.saltPassword("abcde","12"));
+//		System.out.println(ps.saltPassword("abcde","12345"));
+//		System.out.println(ps.saltPassword("abcde","1234567"));
 	}
 
 }

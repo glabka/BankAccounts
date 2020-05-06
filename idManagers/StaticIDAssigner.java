@@ -1,8 +1,7 @@
-package idAssigners;
+package idManagers;
 
 public class StaticIDAssigner extends IDAssigner {
 
-	private static int bankAccountIDCounter = 0;
 	private static int userAccountIDCounter = 0;
 	private static int personIDCounter = 0;
 	
@@ -15,11 +14,6 @@ public class StaticIDAssigner extends IDAssigner {
 	public static IDAssigner getIDAssigner() {
 		return staticIDAssigner;
 		
-	}
-	
-	@Override
-	public int getBankAccountID() {
-		return bankAccountIDCounter++;
 	}
 
 	@Override

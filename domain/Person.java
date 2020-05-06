@@ -1,28 +1,21 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import idAssigners.MySqlStaticDbIDAssigner;
-
-public class Person {
+public class Person implements BankAccountOwner {
 
 	private static Map<Integer, Person> people = new HashMap<Integer, Person>();
-
+	
 	private int id;
 	private String firstName;
 	private String middleName;
 	private String lastName;
-
-	public Person(String firstName, String middleName, String lastName) {
-		this.id = MySqlStaticDbIDAssigner.getIDAssigner().getPersonID();
-		this.firstName = firstName;
-		this.middleName = middleName;
-		this.lastName = lastName;
-		people.put(id, this);
-	}
+	private Date dateOfBirth; // TODO add to constructor, factory method, to PersonDAO and MySqlDatabaseSetup
+	// TODO it would be nice to have some identification field different from id for example ID number, passport num + country
 
 	private Person(int id, String firstName, String middleName, String lastName) {
 		this.id = id;
@@ -33,13 +26,11 @@ public class Person {
 	}
 
 	/**
-	 * Method for creating instance of Person from known data from database. Do NOT
-	 * serve for creation of instances of newly added person - for that use
-	 * constructor.
+	 * Method for creating instance of Person..
 	 * 
 	 * If the Person is already instantiated, his firstName, middleName and lastName
 	 * will be changed to values of input parameters and instance will be returned.
-	 * If this behavior is undesired use getInstance(int id) insetead.
+	 * If this behavior is undesired use getInstance(int id) instead.
 	 * 
 	 * @param id
 	 * @param firstName
@@ -48,6 +39,7 @@ public class Person {
 	 * @return
 	 */
 	public static Person getIstance(int id, String firstName, String middleName, String lastName) {
+		// TODO check if Person of certain ID is in database - maybe
 		Person p = people.get(id);
 		if (p == null) {
 			return new Person(id, firstName, middleName, lastName);
@@ -105,4 +97,12 @@ public class Person {
 	public String toString() {
 		return "[" + this.getId() + ", "+ this.getFirstName() +  ", " + this.getMiddleName() +  ", " + this.getLastName() + "]";
 	}
+	
+	/**
+	 * should be called when instance of Person won't be used anymore
+	 */
+	public void delete() {
+		people.remove(this);
+	}
+	
 }

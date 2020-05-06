@@ -1,4 +1,4 @@
-package idAssigners;
+package idManagers;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

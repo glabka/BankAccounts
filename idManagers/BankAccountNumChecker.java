@@ -1,4 +1,4 @@
-package bankAccount.numCheckers;
+package idManagers;
 import domain.BankCode;
 
 public abstract class BankAccountNumChecker {

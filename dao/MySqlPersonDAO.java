@@ -48,9 +48,14 @@ public class MySqlPersonDAO extends PersonDAO {
 			return "'" + s + "'";
 		}
 	}
+	
+	@Override
+	public void updatePerson(Person person) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void disposeDAO() throws SQLException {
 		dcm.disconnect();
 	}
-
 }

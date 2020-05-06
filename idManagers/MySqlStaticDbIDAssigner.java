@@ -1,4 +1,4 @@
-package idAssigners;
+package idManagers;
 
 import java.sql.SQLException;
 
@@ -33,11 +33,6 @@ public class MySqlStaticDbIDAssigner extends IDAssigner {
 		return assigner;
 	}
 	
-	@Override
-	public int getBankAccountID() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	@Override
 	public int getUserAccountID() {
 		// TODO implement method
