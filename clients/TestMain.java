@@ -49,11 +49,18 @@ public class TestMain {
 //		System.out.println(ps.saltPassword("abcde","1234567"));
 		
 		
-		// New Person fields testing
+		
+//		// MySqlPersonDAO testing
+//		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+//		MySqlPersonDAO pDAO = new MySqlPersonDAO(dcm);
+//		pDAO.test1();
+		
+		
+//		// New Person fields testing
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 ////		MySqlDatabaseSetup.setUpDatabse(dcm, true);
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-//		Date date1 = dateFormat.parse("03/09/1984");
+////		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+////		Date date1 = dateFormat.parse("03/09/1984");
 //		
 ////		Person p1 = Person.getInstance("1", CountryCode.US, "Helen", null, "Miowic", date1);
 ////		Person p2 = Person.getInstance("2", CountryCode.US, "Adam", null, "Green", dateFormat.parse("05/20/1990"));
@@ -65,6 +72,14 @@ public class TestMain {
 //		System.out.println(pDAO.getPerson("1", CountryCode.US));
 		
 		
+//		// MySqlPersonDAO update method
+//		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+//		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+//		Person p = pDAO.getPerson("1", CountryCode.US);
+//		p.setFirstName("Ailian");
+//		pDAO.updatePerson(p);
+		
+
 		
 	}
 

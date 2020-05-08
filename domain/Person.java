@@ -114,7 +114,7 @@ public class Person implements BankAccountOwner {
 	}
 
 	public Date getBirthdate() {
-		return birthdate;
+		return new Date(birthdate.getTime());
 	}
 
 	public void setBirthdate(Date birthdate) {

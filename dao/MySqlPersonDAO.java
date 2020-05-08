@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -70,13 +71,18 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void savePerson(Person person) throws DatabaseException {
 		try {
 			stmt.executeUpdate("insert into " + this.tableName + " values( '" + person.getId() + "', '" + person.getCountry().toString() + "', '" + person.getFirstName() + "', "
-					+ getParenthesesIfNotNull(person.getMiddleName()) + ", '" + person.getLastName() + "', '" + dateFormat.format(person.getBirthdate()) + "')");
+					+ addParentheses(person.getMiddleName()) + ", '" + person.getLastName() + "', '" + dateFormat.format(person.getBirthdate()) + "')");
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
-	private String getParenthesesIfNotNull(String s) {
+	/**
+	 * Adds parentheses if string is different fromo null.
+	 * @param s
+	 * @return
+	 */
+	private String addParentheses(String s) {
 		if (s == null) {
 			return s;
 		} else {
@@ -86,8 +92,20 @@ public class MySqlPersonDAO extends PersonDAO {
 
 	@Override
 	public void updatePerson(Person person) throws DatabaseException {
-		// TODO Auto-generated method stub
-
+		try {
+			stmt.execute("update " + this.tableName + " set " + createPartOfUpdateStatement(person)
+				+ " where " + fieldNames[0] + " = " + addParentheses(person.getId()) + " and " + fieldNames[1] + " = " + addParentheses(person.getCountry().toString()));
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+	
+	private String createPartOfUpdateStatement(Person person) {
+		String equals = " = ";
+		String str = fieldNames[0] + equals + addParentheses(person.getId()) + ", "+ fieldNames[1] + equals + addParentheses(person.getCountry().toString()) + ", "+ 
+				fieldNames[2] + equals + addParentheses(person.getFirstName()) + ", "+ fieldNames[3] + equals + addParentheses(person.getMiddleName()) +", "+ 
+				fieldNames[4] + equals + addParentheses(person.getLastName()) + ", "+ fieldNames[5] + equals + addParentheses(this.dateFormat.format(person.getBirthdate()));
+		return str;
 	}
 
 	@Override
