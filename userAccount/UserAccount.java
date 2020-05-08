@@ -31,27 +31,44 @@ public class UserAccount {
 
 	private List<BankAccount> bankAccounts;
 
+	// other fields not needed to be saved in database
+	PasswordSalter passwordSalter = new BasicPasswordSalter();
+	SaltGenerator saltGenerator = new RandomASCIISaltGenerator();
+
 	private UserAccount(int userAccountID, BankCode bc, BankAccountOwner accountOwner, String username, String password,
 			String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
-		bankCode = bc;
+		prepareFileds(userAccountID, bc, accountOwner, hashUsername(username), hashNewPassword(password), emailAddress,
+				phoneNumber);
+	}
+
+	private UserAccount(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
+			byte[] passwordHash, String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
+		prepareFileds(userAccountID, bc, accountOwner, usernameHash, passwordHash, emailAddress, phoneNumber);
+	}
+
+	private void prepareFileds(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
+			byte[] passwordHash, String emailAddress, int phoneNumber) {
+		this.userAccountID = userAccountID;
+		this.bankCode = bc;
 		this.accountOwner = accountOwner;
-	
-		this.usernameHash = hashUsername(username);
-		this.passwordHash = hashPassword(password);
+
+		this.usernameHash = usernameHash;
+		this.passwordHash = passwordHash;
 
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
 
 		bankAccounts = new ArrayList<BankAccount>();
-		
+
 		userAccounts.put(userAccountID, this);
 	}
-	
+
 	/**
-	 * Method for creating instance of UserAccount.
+	 * Method for creating instance of new UserAccount.
 	 * 
-	 * If the UserAccount is already instantiated other input parameters will be ignored
-	 * in favor of fields of already instantiated UserAccount.
+	 * If the UserAccount is already instantiated other input parameters will be
+	 * ignored in favor of fields of already instantiated UserAccount including
+	 * username and password.
 	 * 
 	 * @param userAccountID
 	 * @param bc
@@ -61,22 +78,50 @@ public class UserAccount {
 	 * @param emailAddress
 	 * @param phoneNumber
 	 * @return
-	 * @throws NoSuchAlgorithmFoundException is thrown in case an appropriate hash algorithm was not found
-	 * when hashing password/username
+	 * @throws NoSuchAlgorithmFoundException is thrown in case an appropriate hash
+	 *                                       algorithm was not found when hashing
+	 *                                       password/username
 	 */
-	public UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, String username, String password,
-			String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
+	public UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, String username,
+			String password, String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
 		UserAccount userAccount = userAccounts.get(userAccountID);
-		if(userAccount == null) {
-			return new UserAccount(userAccountID, bc, accountOwner, username, password,emailAddress, phoneNumber);
+		if (userAccount == null) {
+			return new UserAccount(userAccountID, bc, accountOwner, username, password, emailAddress, phoneNumber);
 		} else {
 			return userAccount;
 		}
 	}
-	
+
 	/**
-	 * Method for getting already instantiated UserAccount objects in programs runtime.
-	 * Can return null if UserAccount wasn't instantiated yet.
+     * Method for creating instance of UserAccount from information retrieved from database.
+	 * 
+	 * If the UserAccount is already instantiated other input parameters will be
+	 * ignored in favor of fields of already instantiated UserAccount.
+	 * 
+	 * @param userAccountID
+	 * @param bc
+	 * @param accountOwner
+	 * @param usernameHash
+	 * @param passwordHash
+	 * @param emailAddress
+	 * @param phoneNumber
+	 * @return
+	 * @throws NoSuchAlgorithmFoundException
+	 */
+	public UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
+			byte[] passwordHash, String emailAddress, int phoneNumber) throws NoSuchAlgorithmFoundException {
+		UserAccount userAccount = userAccounts.get(userAccountID);
+		if (userAccount == null) {
+			return new UserAccount(userAccountID, bc, accountOwner, usernameHash, passwordHash, emailAddress,
+					phoneNumber);
+		} else {
+			return userAccount;
+		}
+	}
+
+	/**
+	 * Method for getting already instantiated UserAccount objects in programs
+	 * runtime. Can return null if UserAccount wasn't instantiated yet.
 	 * 
 	 * @param userAccountID
 	 * @return
@@ -100,20 +145,9 @@ public class UserAccount {
 	public void changeUsername(String username) throws NoSuchAlgorithmFoundException {
 		this.usernameHash = hashUsername(username);
 	}
-	
+
 	private byte[] hashUsername(String username) throws NoSuchAlgorithmFoundException {
 		return Hasher.getHasherInUse().hash(username);
-	}
-
-	public void changePassword(String password) throws NoSuchAlgorithmFoundException {
-		this.passwordHash = hashPassword(password);
-	}
-	
-	private byte[] hashPassword(String password) throws NoSuchAlgorithmFoundException {
-		PasswordSalter passwordSalter = new BasicPasswordSalter();
-		SaltGenerator saltGenerator = new RandomASCIISaltGenerator();
-		this.salt = saltGenerator.generateSalt(10);
-		return Hasher.getHasherInUse().hash(passwordSalter.saltPassword(password, this.salt));
 	}
 
 	public boolean verifyUsername(String username) throws NoSuchAlgorithmFoundException {
@@ -121,9 +155,31 @@ public class UserAccount {
 		return Arrays.equals(usernameHash, this.usernameHash);
 	}
 
-	public boolean verifyPassword(String password) {
-		// TODO
-		return false;
+	public void changePassword(String password) throws NoSuchAlgorithmFoundException {
+		this.passwordHash = hashNewPassword(password);
+	}
+
+	/**
+	 * Hashes password. Salt is automatically created. This method is only for use
+	 * when new account is created or new password is entered. For password
+	 * verification use hashPassword(String password)
+	 * 
+	 * @param password
+	 * @return
+	 * @throws NoSuchAlgorithmFoundException
+	 */
+	private byte[] hashNewPassword(String password) throws NoSuchAlgorithmFoundException {
+		this.salt = this.saltGenerator.generateSalt(10);
+		return Hasher.getHasherInUse().hash(this.passwordSalter.saltPassword(password, this.salt));
+	}
+
+	private byte[] hashPassword(String password) throws NoSuchAlgorithmFoundException {
+		return Hasher.getHasherInUse().hash(this.passwordSalter.saltPassword(password, this.salt));
+	}
+
+	public boolean verifyPassword(String password) throws NoSuchAlgorithmFoundException {
+		byte[] passwordHash = hashPassword(password);
+		return Arrays.equals(passwordHash, this.passwordHash);
 	}
 
 	public BankAccountOwner getAccountOwner() {
@@ -156,6 +212,12 @@ public class UserAccount {
 
 	public BankCode getBankCode() {
 		return bankCode;
+	}
+
+	@Override
+	public void finalize() throws Throwable {
+		userAccounts.remove(this.userAccountID);
+		super.finalize();
 	}
 
 }

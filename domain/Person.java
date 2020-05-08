@@ -6,47 +6,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.neovisionaries.i18n.CountryCode;
+
 public class Person implements BankAccountOwner {
 
-	private static Map<Integer, Person> people = new HashMap<Integer, Person>();
-	
-	private int id;
+	private static Map<String, Person> people = new HashMap<String, Person>();
+
+	/**
+	 * identification card/passport number depending on CountryCode country
+	 */
+	private String id;
+	private CountryCode country;
 	private String firstName;
 	private String middleName;
 	private String lastName;
-	private Date dateOfBirth; // TODO add to constructor, factory method, to PersonDAO and MySqlDatabaseSetup
-	// TODO it would be nice to have some identification field different from id for example ID number, passport num + country
+	private Date birthdate;
 
-	private Person(int id, String firstName, String middleName, String lastName) {
+	private Person(String id, CountryCode country, String firstName, String middleName, String lastName, Date birthdate) {
 		this.id = id;
+		this.country = country;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
-		people.put(id, this);
+		this.birthdate = birthdate;
+		people.put(createKeyForMap(id, country), this);
+	}
+
+	private static String createKeyForMap(String id, CountryCode country) {
+		return id + country.toString();
 	}
 
 	/**
-	 * Method for creating instance of Person..
+	 * Method for creating instance of Person.
 	 * 
-	 * If the Person is already instantiated, his firstName, middleName and lastName
-	 * will be changed to values of input parameters and instance will be returned.
-	 * If this behavior is undesired use getInstance(int id) instead.
+	 * If the Person is already instantiated, it is returned with it's respective
+	 * values of fields instead.
 	 * 
 	 * @param id
+	 * @param country
 	 * @param firstName
 	 * @param middleName
 	 * @param lastName
+	 * @param birthdate
 	 * @return
 	 */
-	public static Person getIstance(int id, String firstName, String middleName, String lastName) {
-		// TODO check if Person of certain ID is in database - maybe
-		Person p = people.get(id);
+	public static Person getInstance(String id, CountryCode country, String firstName, String middleName, String lastName,
+			Date birthdate) {
+		// TODO check fields are not null
+		Person p = people.get(createKeyForMap(id, country));
 		if (p == null) {
-			return new Person(id, firstName, middleName, lastName);
+			return new Person(id, country, firstName, middleName, lastName, birthdate);
 		} else {
-			p.setFirstName(firstName);
-			p.setLastName(lastName);
-			p.setMiddleName(middleName);
 			return p;
 		}
 	}
@@ -56,17 +66,18 @@ public class Person implements BankAccountOwner {
 	 * Can return null if person wasn't instantiated yet.
 	 * 
 	 * @param id
+	 * @param country
 	 * @return
 	 */
-	public static Person getInstance(int id) {
-		return people.get(id);
+	public static Person getInstance(String id, CountryCode country) {
+		return people.get(createKeyForMap(id, country));
 	}
-	
-	public static List<Person> getAllInstances(){
+
+	public static List<Person> getAllInstances() {
 		return new ArrayList<Person>(people.values());
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -93,16 +104,32 @@ public class Person implements BankAccountOwner {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public CountryCode getCountry() {
+		return country;
+	}
+
+	public void setCountry(CountryCode country) {
+		this.country = country;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
 
 	public String toString() {
-		return "[" + this.getId() + ", "+ this.getFirstName() +  ", " + this.getMiddleName() +  ", " + this.getLastName() + "]";
+		return "[" + this.getId() + ", " + this.getFirstName() + ", " + this.getMiddleName() + ", " + this.getLastName()
+				+ "]";
 	}
-	
-	/**
-	 * should be called when instance of Person won't be used anymore
-	 */
-	public void delete() {
-		people.remove(this);
+
+	@Override
+	public void finalize() throws Throwable {
+		people.remove(createKeyForMap(this.id, this.country));
+		super.finalize();
 	}
-	
+
 }

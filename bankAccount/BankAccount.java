@@ -24,15 +24,15 @@ public class BankAccount {
 		this.bankCode = bankCode;
 		this.accountNum = accountNum;
 		this.accountBalace = 0;
-		bankAccounts.put(getKey(bankCode, accountNum), this);
+		bankAccounts.put(createKeyForMap(bankCode, accountNum), this);
 	}
 	
-	private static String getKey(BankCode bankCode, String accountNum) {
+	private static String createKeyForMap(BankCode bankCode, String accountNum) {
 		return bankCode.toString() + accountNum;
 	}
 	
 	public static BankAccount getInstance(BankCode bankCode, String accountNum) {
-		BankAccount bankAccount = bankAccounts.get(getKey(bankCode, accountNum));
+		BankAccount bankAccount = bankAccounts.get(createKeyForMap(bankCode, accountNum));
 		if(bankAccount == null) {
 			return new BankAccount(bankCode, accountNum);
 		} else {
@@ -54,6 +54,12 @@ public class BankAccount {
 
 	public void setAccountNum(String accountNum) {
 		this.accountNum = accountNum;
+	}
+	
+	@Override
+	public void finalize() throws Throwable {
+		bankAccounts.remove(createKeyForMap(this.bankCode, this.accountNum));
+		super.finalize();
 	}
 
 }

@@ -23,6 +23,7 @@ public class MySqlBiggestIDGetter {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select max(person_id) from people");
 			if (rs.next()) {
+				// TODO is not int anymore bur rather String. Probably delete this whole class.
 				return rs.getInt(1);
 			} else {
 				return 0;
