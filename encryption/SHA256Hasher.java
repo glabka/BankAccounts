@@ -4,18 +4,18 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import customExceptions.NoSuchAlgorithmFoundException;
+import customExceptions.HashFailureException;
 
 public class SHA256Hasher extends Hasher {
 
 	@Override
-	public byte[] hash(String password) throws NoSuchAlgorithmFoundException {
+	public byte[] hash(String password) {
 		MessageDigest digest;
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
 			return digest.digest(password.getBytes(StandardCharsets.UTF_8));		
 		} catch (NoSuchAlgorithmException e) {
-			throw new NoSuchAlgorithmFoundException(e.getMessage());
+			throw new HashFailureException(e.getMessage());
 		}
 		
 	}

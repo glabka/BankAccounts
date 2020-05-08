@@ -42,7 +42,6 @@ public class MySqlPersonDAO extends PersonDAO {
 	public Person getPerson(String personID, CountryCode country) throws DatabaseException {
 		String dateString = "";
 		try {
-			// TODO change to current identification
 			ResultSet rs = stmt.executeQuery("select * from people where person_id = '" + personID + "' and country = '" + country.toString() + "'");
 			if (rs.next()) {
 				dateString = rs.getString(6);

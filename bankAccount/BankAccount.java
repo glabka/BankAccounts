@@ -3,11 +3,7 @@ package bankAccount;
 import java.util.HashMap;
 import java.util.Map;
 
-import customExceptions.AccountNumTakenException;
 import domain.BankCode;
-import idManagers.BankAccountNumChecker;
-import idManagers.StaticIDAssigner;
-import idManagers.TrivialBankAccountNumChecker;
 
 public class BankAccount {
 
