@@ -21,6 +21,15 @@ public class MySqlPersonDAO extends PersonDAO {
 	private Statement stmt;
 	private SimpleDateFormat dateFormat;
 	
+	private static String notNull = " not null";
+	private static String[] fieldNames = {"person_id", "country", "first_name", "middle_name", "last_name", "brithdate"};
+	private static String[] fieldTypes = {varchar(40) + notNull, varchar(2) + notNull, varchar(30) + notNull, varchar(30), varchar(30) + notNull, varchar(10) + notNull};
+	private String tableName = "people";
+	
+	private static String varchar(int i) {
+		return "varchar(" + i + ")";
+	}
+	
 	public MySqlPersonDAO(MySqlDatabaseConnectionManager mySqlDcm) throws ClassNotFoundException, DatabaseException {
 		this.dcm = mySqlDcm;
 		con = dcm.getConnection();
@@ -42,7 +51,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	public Person getPerson(String personID, CountryCode country) throws DatabaseException {
 		String dateString = "";
 		try {
-			ResultSet rs = stmt.executeQuery("select * from people where person_id = '" + personID + "' and country = '" + country.toString() + "'");
+			ResultSet rs = stmt.executeQuery("select * from " + this.tableName + " where person_id = '" + personID + "' and country = '" + country.toString() + "'");
 			if (rs.next()) {
 				dateString = rs.getString(6);
 				return Person.getInstance(rs.getString(1), CountryCode.valueOf(rs.getString(2)), rs.getString(3),
@@ -60,7 +69,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	@Override
 	public void savePerson(Person person) throws DatabaseException {
 		try {
-			stmt.executeUpdate("insert into people values( '" + person.getId() + "', '" + person.getCountry().toString() + "', '" + person.getFirstName() + "', "
+			stmt.executeUpdate("insert into " + this.tableName + " values( '" + person.getId() + "', '" + person.getCountry().toString() + "', '" + person.getFirstName() + "', "
 					+ getParenthesesIfNotNull(person.getMiddleName()) + ", '" + person.getLastName() + "', '" + dateFormat.format(person.getBirthdate()) + "')");
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
@@ -85,16 +94,14 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void setUpDatabase(boolean forced) throws DatabaseException {
 		try {
 			String createCMDPrefix = "create table if not exists ";
-			String createCMDSuffixPeople = " (person_id varchar(30) not null, country varchar(2) not null,"
-					+ " first_name varchar(30) not null, middle_name varchar(30), "
-					+ "last_name varchar(30) not null, brithdate varchar(10), primary key (person_id, country))";
-			String tableName = "people";
+			String createCMDSuffixPeople = " (" + createTableType(fieldNames, fieldTypes)
+				+ ", primary key ("+ fieldNames[0] +", " + fieldNames[1]+ "))";
 			if (forced) {
 				String dropCMD = "drop table if exists ";
-				stmt.executeUpdate(dropCMD + tableName);
-				stmt.executeUpdate(createCMDPrefix + tableName + createCMDSuffixPeople);
+				stmt.executeUpdate(dropCMD + this.tableName);
+				stmt.executeUpdate(createCMDPrefix + this.tableName + createCMDSuffixPeople);
 			} else {
-				stmt.executeUpdate(createCMDPrefix + tableName + createCMDSuffixPeople);
+				stmt.executeUpdate(createCMDPrefix + this.tableName + createCMDSuffixPeople);
 			}
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
@@ -105,4 +112,15 @@ public class MySqlPersonDAO extends PersonDAO {
 		dcm.disconnect();
 	}
 
+	private String createTableType(String[] fieldNames, String[] fieldTypes) {
+		if(fieldNames.length != fieldTypes.length) {
+			throw new IllegalArgumentException("input parameters fieldNames and fieldTypes must be of same length.");
+		}
+		String str = fieldNames[0] + " " + fieldTypes[0];
+		for (int i = 1; i < fieldNames.length; i++) {
+			str += ", " + fieldNames[i] + " " + fieldTypes[i];
+		}
+		return str;
+	}
+	
 }

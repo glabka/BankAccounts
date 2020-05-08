@@ -52,6 +52,10 @@ public class BankAccount {
 		this.accountNum = accountNum;
 	}
 	
+	public int getAccountBalace() {
+		return accountBalace;
+	}
+
 	@Override
 	public void finalize() throws Throwable {
 		bankAccounts.remove(createKeyForMap(this.bankCode, this.accountNum));
