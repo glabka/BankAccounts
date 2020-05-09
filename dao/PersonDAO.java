@@ -11,6 +11,7 @@ public abstract class PersonDAO {
 	public abstract void savePerson(Person person) throws DatabaseException;
 	public abstract void updatePerson(Person person) throws DatabaseException;
 	public abstract void setUpDatabase(boolean forced) throws DatabaseException;
+	public abstract void dispose() throws DatabaseException;
 	
 	public void setUpDatabase() throws DatabaseException {
 		setUpDatabase(false);

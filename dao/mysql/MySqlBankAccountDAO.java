@@ -1,7 +1,8 @@
-package dao;
+package dao.mysql;
 
 import bankAccount.BankAccount;
 import customExceptions.DatabaseException;
+import dao.BankAccountDAO;
 import domain.BankCode;
 import domain.Person;
 
@@ -27,6 +28,12 @@ public class MySqlBankAccountDAO extends BankAccountDAO{
 
 	@Override
 	public void setUpDatabase(boolean forced) throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -10,6 +10,7 @@ public abstract class BankAccountDAO {
 	public abstract void saveBankAccount(BankAccount bankAccount) throws DatabaseException;
 	public abstract void updateBankAccount(BankAccount bankAccount) throws DatabaseException;
 	public abstract void setUpDatabase(boolean forced) throws DatabaseException;
+	public abstract void dispose() throws DatabaseException;
 	
 	public void setUpDatabase() throws DatabaseException {
 		setUpDatabase(false);

@@ -1,10 +1,9 @@
-package dao;
+package dao.mysql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -12,6 +11,7 @@ import com.neovisionaries.i18n.CountryCode;
 
 import customExceptions.BadDateFormat;
 import customExceptions.DatabaseException;
+import dao.PersonDAO;
 import database.MySqlDatabaseConnectionManager;
 import domain.Person;
 
@@ -55,14 +55,19 @@ public class MySqlPersonDAO extends PersonDAO {
 			ResultSet rs = stmt.executeQuery("select * from " + this.tableName + " where person_id = '" + personID + "' and country = '" + country.toString() + "'");
 			if (rs.next()) {
 				dateString = rs.getString(6);
-				return Person.getInstance(rs.getString(1), CountryCode.valueOf(rs.getString(2)), rs.getString(3),
+				Person p = Person.getInstance(rs.getString(1), CountryCode.valueOf(rs.getString(2)), rs.getString(3),
 						rs.getString(4), rs.getString(5), dateFormat.parse(dateString));
+				rs.close();
+				return p;
 			} else {
+				rs.close();
 				return null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		} catch (ParseException e) {
+			e.printStackTrace();
 			throw new BadDateFormat("Bad date format in mysql database: " + dateString);
 		}
 	}
@@ -73,12 +78,13 @@ public class MySqlPersonDAO extends PersonDAO {
 			stmt.executeUpdate("insert into " + this.tableName + " values( '" + person.getId() + "', '" + person.getCountry().toString() + "', '" + person.getFirstName() + "', "
 					+ addParentheses(person.getMiddleName()) + ", '" + person.getLastName() + "', '" + dateFormat.format(person.getBirthdate()) + "')");
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
 	/**
-	 * Adds parentheses if string is different fromo null.
+	 * Adds parentheses if string is different from null.
 	 * @param s
 	 * @return
 	 */
@@ -96,6 +102,7 @@ public class MySqlPersonDAO extends PersonDAO {
 			stmt.execute("update " + this.tableName + " set " + createPartOfUpdateStatement(person)
 				+ " where " + fieldNames[0] + " = " + addParentheses(person.getId()) + " and " + fieldNames[1] + " = " + addParentheses(person.getCountry().toString()));
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}
 	}
@@ -122,12 +129,19 @@ public class MySqlPersonDAO extends PersonDAO {
 				stmt.executeUpdate(createCMDPrefix + this.tableName + createCMDSuffixPeople);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 	
-	public void disposeDAO() throws DatabaseException {
-		dcm.disconnect();
+	@Override
+	public void dispose() throws DatabaseException {
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	private String createTableType(String[] fieldNames, String[] fieldTypes) {

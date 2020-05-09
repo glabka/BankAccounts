@@ -11,7 +11,9 @@ import com.neovisionaries.i18n.CountryCode;
 public class Person implements BankAccountOwner {
 
 	private static Map<String, Person> people = new HashMap<String, Person>();
-
+	// TODO probably change primary identification from country + id (passport) to just unique id
+	// TODO because id (passport) can change with new passport.
+	
 	/**
 	 * identification card/passport number depending on CountryCode country
 	 */

@@ -5,8 +5,8 @@ import java.util.Date;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import dao.MySqlPersonDAO;
 import dao.PersonDAO;
+import dao.mysql.MySqlPersonDAO;
 import database.MySqlDatabaseConnectionManager;
 import database.MySqlDatabaseSetup;
 import domain.Person;
