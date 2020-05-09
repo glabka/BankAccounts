@@ -3,7 +3,6 @@ package dao;
 import bankAccount.BankAccount;
 import customExceptions.DatabaseException;
 import domain.BankCode;
-import domain.Person;
 
 public abstract class BankAccountDAO {
 	public abstract BankAccount getBankAccount(BankCode bankCode, String accountNum) throws DatabaseException;

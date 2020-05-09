@@ -4,9 +4,7 @@ public class BasicPasswordSalter extends PasswordSalter{
 
 	@Override
 	public String saltPassword(String password, String salt) {
-		int maxLen = Math.max(password.length(), salt.length());
 		int minLen = Math.min(password.length(), salt.length());
-		int diff = Math.abs(password.length() - salt.length());
 		String saltedPassword = "";
 		
 		// salting password

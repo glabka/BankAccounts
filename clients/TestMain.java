@@ -1,16 +1,5 @@
 package clients;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.neovisionaries.i18n.CountryCode;
-
-import dao.PersonDAO;
-import dao.mysql.MySqlPersonDAO;
-import database.MySqlDatabaseConnectionManager;
-import database.MySqlDatabaseSetup;
-import domain.Person;
-
 public class TestMain {
 
 	public static void main(String[] args) throws Exception {
@@ -80,7 +69,6 @@ public class TestMain {
 //		pDAO.updatePerson(p);
 		
 
-		
 	}
 
 }

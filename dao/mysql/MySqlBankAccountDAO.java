@@ -4,7 +4,6 @@ import bankAccount.BankAccount;
 import customExceptions.DatabaseException;
 import dao.BankAccountDAO;
 import domain.BankCode;
-import domain.Person;
 
 public class MySqlBankAccountDAO extends BankAccountDAO{
 
