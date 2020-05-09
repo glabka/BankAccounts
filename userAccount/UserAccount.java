@@ -26,18 +26,19 @@ public class UserAccount {
 	private List<BankAccount> bankAccounts;
 
 	private UserAccount(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String emailAddress, int phoneNumber) {
-		prepareFileds(userAccountID, bc, accountOwner, usernameHash, passwordHash, emailAddress, phoneNumber);
+			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) {
+		prepareFileds(userAccountID, bc, accountOwner, usernameHash, passwordHash, salt, emailAddress, phoneNumber);
 	}
 
 	private void prepareFileds(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String emailAddress, int phoneNumber) {
+			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) {
 		this.userAccountID = userAccountID;
 		this.bankCode = bc;
 		this.accountOwner = accountOwner;
 
 		this.usernameHash = usernameHash;
 		this.passwordHash = passwordHash;
+		this.salt = salt;
 
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
@@ -63,11 +64,11 @@ public class UserAccount {
 	 * @param phoneNumber
 	 * @return
 	 */
-	public UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String emailAddress, int phoneNumber){
+	public static UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
+			byte[] passwordHash, String salt, String emailAddress, int phoneNumber){
 		UserAccount userAccount = userAccounts.get(userAccountID);
 		if (userAccount == null) {
-			return new UserAccount(userAccountID, bc, accountOwner, usernameHash, passwordHash, emailAddress,
+			return new UserAccount(userAccountID, bc, accountOwner, usernameHash, passwordHash, salt, emailAddress,
 					phoneNumber);
 		} else {
 			return userAccount;
