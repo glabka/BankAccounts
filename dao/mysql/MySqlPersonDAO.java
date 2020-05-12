@@ -49,7 +49,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	 * @throws DatabaseException 
 	 */
 	@Override
-	public Person getPerson(String personID, CountryCode country) throws DatabaseException {
+	public Person getInstance(String personID, CountryCode country) throws DatabaseException {
 		String dateString = "";
 		try {
 			ResultSet rs = stmt.executeQuery("select * from " + this.tableName + " where person_id = '" + personID + "' and country = '" + country.toString() + "'");
@@ -73,10 +73,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	}
 
 	@Override
-	public void savePerson(Person person) throws DatabaseException {
+	public void saveInstance(Person instance) throws DatabaseException {
 		try {
-			stmt.executeUpdate("insert into " + this.tableName + " values( '" + person.getId() + "', '" + person.getCountry().toString() + "', '" + person.getFirstName() + "', "
-					+ addParentheses(person.getMiddleName()) + ", '" + person.getLastName() + "', '" + dateFormat.format(person.getBirthdate()) + "')");
+			stmt.executeUpdate("insert into " + this.tableName + " values( '" + instance.getId() + "', '" + instance.getCountry().toString() + "', '" + instance.getFirstName() + "', "
+					+ addParentheses(instance.getMiddleName()) + ", '" + instance.getLastName() + "', '" + dateFormat.format(instance.getBirthdate()) + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
@@ -97,10 +97,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	}
 
 	@Override
-	public void updatePerson(Person person) throws DatabaseException {
+	public void updateEntry(Person instance) throws DatabaseException {
 		try {
-			stmt.execute("update " + this.tableName + " set " + createPartOfUpdateStatement(person)
-				+ " where " + fieldNames[0] + " = " + addParentheses(person.getId()) + " and " + fieldNames[1] + " = " + addParentheses(person.getCountry().toString()));
+			stmt.execute("update " + this.tableName + " set " + createPartOfUpdateStatement(instance)
+				+ " where " + fieldNames[0] + " = " + addParentheses(instance.getId()) + " and " + fieldNames[1] + " = " + addParentheses(instance.getCountry().toString()));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());

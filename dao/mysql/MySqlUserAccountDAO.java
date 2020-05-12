@@ -7,25 +7,25 @@ import userAccount.UserAccount;
 public class MySqlUserAccountDAO extends UserAccountDAO{
 
 	@Override
-	public UserAccount getUserAccount(int id) throws DatabaseException {
+	public UserAccount getInstance(int id) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserAccount getUserAccount(byte[] usernameHash) throws DatabaseException {
+	public UserAccount getInstance(byte[] usernameHash) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveUserAccount(UserAccount userAccount) throws DatabaseException {
+	public void saveInstance(UserAccount instance) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateUserAccount(UserAccount userAccount) throws DatabaseException {
+	public void updateEntry(UserAccount instance) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,19 +8,19 @@ import domain.BankCode;
 public class MySqlBankAccountDAO extends BankAccountDAO{
 
 	@Override
-	public BankAccount getBankAccount(BankCode bankCode, String accountNum) throws DatabaseException {
+	public BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveBankAccount(BankAccount bankAccount) throws DatabaseException {
+	public void saveInstance(BankAccount instance) throws DatabaseException{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateBankAccount(BankAccount bankAccount) throws DatabaseException {
+	public void updateEntry(BankAccount instance) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -36,6 +36,5 @@ public class MySqlBankAccountDAO extends BankAccountDAO{
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

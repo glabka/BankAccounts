@@ -7,19 +7,19 @@ import domain.Company;
 public class MySqlCompanyDAO extends CompanyDAO{
 
 	@Override
-	public Company getCompany(String name) throws DatabaseException {
+	public Company getInstance(String id) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void saveCompany(Company company) throws DatabaseException {
+	public void saveInstance(Company instance) throws DatabaseException{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateCompany(Company company) throws DatabaseException {
+	public void updateEntry(Company instance) throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -35,5 +35,6 @@ public class MySqlCompanyDAO extends CompanyDAO{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

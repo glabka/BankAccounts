@@ -1,23 +1,21 @@
 package database;
 
+import java.util.List;
+
 import customExceptions.DatabaseException;
-import dao.BankAccountDAO;
-import dao.CompanyDAO;
-import dao.PersonDAO;
-import dao.UserAccountDAO;
+import dao.GenericDAO;
 
 public class DatabaseSetup {
 
-	public static void setUpDatabase(BankAccountDAO baDAO, CompanyDAO cDAO, PersonDAO pDAO, UserAccountDAO uaDAO) throws ClassNotFoundException, DatabaseException {
-		setUpDatabse(baDAO, cDAO, pDAO, uaDAO, false);
+	public static void setUpDatabase(List<GenericDAO<?>> daos) throws DatabaseException {
+		setUpDatabse(daos, false);
 	}
 
 	
-	public static void setUpDatabse(BankAccountDAO baDAO, CompanyDAO cDAO, PersonDAO pDAO, UserAccountDAO uaDAO, boolean forced)
-			throws ClassNotFoundException, DatabaseException {
-		baDAO.setUpDatabase(forced);
-		cDAO.setUpDatabase(forced);
-		pDAO.setUpDatabase(forced);
-		uaDAO.setUpDatabase(forced);
+	public static void setUpDatabse(List<GenericDAO<?>> daos, boolean forced)
+			throws DatabaseException {
+		for(GenericDAO<?> dao : daos) {
+			dao.setUpDatabase(forced);
+		}
 	}
 }

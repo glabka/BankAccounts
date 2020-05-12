@@ -4,14 +4,6 @@ import bankAccount.BankAccount;
 import customExceptions.DatabaseException;
 import domain.BankCode;
 
-public abstract class BankAccountDAO {
-	public abstract BankAccount getBankAccount(BankCode bankCode, String accountNum) throws DatabaseException;
-	public abstract void saveBankAccount(BankAccount bankAccount) throws DatabaseException;
-	public abstract void updateBankAccount(BankAccount bankAccount) throws DatabaseException;
-	public abstract void setUpDatabase(boolean forced) throws DatabaseException;
-	public abstract void dispose() throws DatabaseException;
-	
-	public void setUpDatabase() throws DatabaseException {
-		setUpDatabase(false);
-	}
+public abstract class BankAccountDAO extends GenericDAO<BankAccount>{
+	public abstract BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException;
 }
