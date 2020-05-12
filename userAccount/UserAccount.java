@@ -151,10 +151,4 @@ public class UserAccount {
 		return bankCode;
 	}
 
-	@Override
-	public void finalize() throws Throwable {
-		userAccounts.remove(this.userAccountID);
-		super.finalize();
-	}
-
 }

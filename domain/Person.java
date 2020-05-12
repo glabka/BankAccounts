@@ -125,10 +125,4 @@ public class Person implements BankAccountOwner {
 				+ "]";
 	}
 
-	@Override
-	public void finalize() throws Throwable {
-		people.remove(createKeyForMap(this.id, this.country));
-		super.finalize();
-	}
-
 }
