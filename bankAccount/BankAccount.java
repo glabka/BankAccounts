@@ -55,5 +55,29 @@ public class BankAccount {
 	public int getAccountBalace() {
 		return accountBalace;
 	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of BankAccount to free allocated
+	 * memory associated with this object. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to instance of BankAccount
+	 * or its end of use can lead to existence of two BankAccount instances of one actual person.
+	 * @param person
+	 */
+	public void dispose(BankAccount bankAccount) {
+		bankAccounts.remove(createKeyForMap(bankAccount.getBankCode(), bankAccount.getAccountNum()));
+	}
+	
+	/**
+	 * Should be used after the end of usage of all instances of BankAccount class to free allocated
+	 * memory associated with these objects. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to all instances of BankAccount
+	 * or end of use of all instance can lead to existence of two BankAccount instances of one actual person.
+	 * @param person
+	 */
+	public void disposeAll() {
+		bankAccounts.clear();
+	}
 
 }

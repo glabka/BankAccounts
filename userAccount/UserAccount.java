@@ -150,5 +150,29 @@ public class UserAccount {
 	public BankCode getBankCode() {
 		return bankCode;
 	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of UserAccount to free allocated
+	 * memory associated with this object. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to instance of UserAccount 
+	 * or its end of use can lead to existence of two UserAccount instances of one actual person.
+	 * @param person
+	 */
+	public void dispose(UserAccount userAccount) {
+		userAccounts.remove(userAccount.getUserAccountID());
+	}
+	
+	/**
+	 * Should be used after the end of usage of all instances of UserAccount class to free allocated
+	 * memory associated with these objects. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to all instances of UserAccount
+	 * or end of use of all instance can lead to existence of two UserAccount instances of one actual person.
+	 * @param person
+	 */
+	public void disposeAll() {
+		userAccounts.clear();
+	}
 
 }
