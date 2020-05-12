@@ -14,9 +14,6 @@ public class Person implements BankAccountOwner {
 	// TODO probably change primary identification from country + id (passport) to just unique id
 	// TODO because id (passport) can change with new passport.
 	
-	/**
-	 * identification card/passport number depending on CountryCode country
-	 */
 	private String id;
 	private CountryCode country;
 	private String firstName;
