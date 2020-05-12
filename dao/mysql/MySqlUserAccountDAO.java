@@ -42,4 +42,16 @@ public class MySqlUserAccountDAO extends UserAccountDAO{
 		
 	}
 
+	@Override
+	public boolean isIdFree(int id) throws DatabaseException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isUsernameHashFree(byte[] hash) throws DatabaseException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -1,5 +1,11 @@
 package clients;
 
+import com.neovisionaries.i18n.CountryCode;
+
+import dao.PersonDAO;
+import dao.mysql.MySqlPersonDAO;
+import database.MySqlDatabaseConnectionManager;
+
 public class TestMain {
 
 	public static void main(String[] args) throws Exception {
@@ -68,6 +74,23 @@ public class TestMain {
 //		p.setFirstName("Ailian");
 //		pDAO.updatePerson(p);
 		
+		
+//		// New Person fields testing 2
+//		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+//		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+////		MySqlDatabaseSetup.setUpDatabse(dcm, true);
+////		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+////		Date date1 = dateFormat.parse("03/09/1984");
+//		
+////		Person p1 = Person.getInstance("1", CountryCode.US, "Helen", null, "Miowic", date1);
+////		Person p2 = Person.getInstance("2", CountryCode.US, "Adam", null, "Green", dateFormat.parse("05/20/1990"));
+//		
+////		pDAO.savePerson(p1);
+////		pDAO.savePerson(p2);
+//		
+//		System.out.println(pDAO.getInstance("1", CountryCode.US));
+//		System.out.println(pDAO.isIdFree("1", CountryCode.US));
+//		System.out.println(pDAO.isIdFree("3", CountryCode.US));
 
 	}
 

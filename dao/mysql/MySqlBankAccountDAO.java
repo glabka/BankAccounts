@@ -37,4 +37,10 @@ public class MySqlBankAccountDAO extends BankAccountDAO{
 		
 	}
 
+	@Override
+	public boolean isAccountNumberFree(BankCode bankCode, String accountNum) throws DatabaseException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
