@@ -157,7 +157,7 @@ public class UserAccount {
 	 * 
 	 * BE AWARE that when used in any other way then right before loosing all references to instance of UserAccount 
 	 * or its end of use can lead to existence of two UserAccount instances of one actual person.
-	 * @param person
+	 * @param userAccount
 	 */
 	public void dispose(UserAccount userAccount) {
 		userAccounts.remove(userAccount.getUserAccountID());
@@ -169,7 +169,6 @@ public class UserAccount {
 	 * 
 	 * BE AWARE that when used in any other way then right before loosing all references to all instances of UserAccount
 	 * or end of use of all instance can lead to existence of two UserAccount instances of one actual person.
-	 * @param person
 	 */
 	public void disposeAll() {
 		userAccounts.clear();

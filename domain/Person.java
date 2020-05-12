@@ -143,7 +143,6 @@ public class Person implements BankAccountOwner {
 	 * 
 	 * BE AWARE that when used in any other way then right before loosing all references to all instances of Person
 	 * or end of use of all instance can lead to existence of two Person instances of one actual person.
-	 * @param person
 	 */
 	public void disposeAll() {
 		people.clear();

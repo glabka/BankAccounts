@@ -62,7 +62,7 @@ public class BankAccount {
 	 * 
 	 * BE AWARE that when used in any other way then right before loosing all references to instance of BankAccount
 	 * or its end of use can lead to existence of two BankAccount instances of one actual person.
-	 * @param person
+	 * @param bankAccount
 	 */
 	public void dispose(BankAccount bankAccount) {
 		bankAccounts.remove(createKeyForMap(bankAccount.getBankCode(), bankAccount.getAccountNum()));
@@ -74,7 +74,6 @@ public class BankAccount {
 	 * 
 	 * BE AWARE that when used in any other way then right before loosing all references to all instances of BankAccount
 	 * or end of use of all instance can lead to existence of two BankAccount instances of one actual person.
-	 * @param person
 	 */
 	public void disposeAll() {
 		bankAccounts.clear();
