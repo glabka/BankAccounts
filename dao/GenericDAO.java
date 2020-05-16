@@ -4,6 +4,8 @@ import customExceptions.DatabaseException;
 
 public abstract class GenericDAO<T> {
 
+	public abstract String getTableName();
+	public abstract void deleteEntry(T instance) throws DatabaseException;
 	public abstract void saveInstance(T instance) throws DatabaseException;
 	public abstract void updateEntry(T instance) throws DatabaseException;
 	public abstract void setUpDatabase(boolean forced) throws DatabaseException;

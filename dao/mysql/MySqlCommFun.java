@@ -8,6 +8,7 @@ public class MySqlCommFun {
 	public static final String SELECT = "select * from ";
 	public static final String UPDATE = "update ";
 	public static final String INSERT = "insert into ";
+	public static final String DELETE = "delete from ";
 	public static final String NOT_NULL = " not null";
 	public static final String CREATE_TABLE_INE = "create table if not exists ";
 	public static final String DROP_TABLE_IE = "drop table if exists ";
@@ -18,6 +19,20 @@ public class MySqlCommFun {
 	
 	public static String integer(int i) {
 		return "int(" + i + ")";
+	}
+	
+	/**
+	 * Adds parentheses if string is different from null.
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String addParentheses(String s) {
+		if (s == null) {
+			return s;
+		} else {
+			return "'" + s + "'";
+		}
 	}
 	
 	public static String createTableType(String[] fieldNames, String[] fieldTypes) {

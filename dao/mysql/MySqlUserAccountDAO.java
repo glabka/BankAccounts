@@ -7,6 +7,12 @@ import userAccount.UserAccount;
 public class MySqlUserAccountDAO extends UserAccountDAO{
 
 	@Override
+	public void deleteEntry(UserAccount instance) throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public UserAccount getInstance(int id) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
@@ -52,6 +58,12 @@ public class MySqlUserAccountDAO extends UserAccountDAO{
 	public boolean isUsernameHashFree(byte[] hash) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getTableName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

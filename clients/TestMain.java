@@ -7,11 +7,14 @@ import java.util.List;
 
 import com.neovisionaries.i18n.CountryCode;
 
+import dao.CompanyDAO;
 import dao.GenericDAO;
 import dao.PersonDAO;
+import dao.mysql.MySqlCompanyDAO;
 import dao.mysql.MySqlPersonDAO;
 import database.DatabaseSetup;
 import database.MySqlDatabaseConnectionManager;
+import domain.Company;
 import domain.Person;
 
 public class TestMain {
@@ -90,7 +93,7 @@ public class TestMain {
 ////		daos.add(new MySqlPersonDAO(dcm));
 ////		DatabaseSetup.setUpDatabse(daos, true);
 ////		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-////		Date date1 = dateFormat.parse("03/09/1984");
+////	Date date1 = dateFormat.parse("03/09/1984");
 ////		
 ////		Person p1 = Person.getInstance(1, CountryCode.US, "Helen", null, "Miowic", date1);
 ////		Person p2 = Person.getInstance(2, CountryCode.US, "Adam", null, "Green", dateFormat.parse("05/20/1990"));
@@ -98,10 +101,42 @@ public class TestMain {
 ////		pDAO.saveInstance(p1);
 ////		pDAO.saveInstance(p2);
 //		
-//		System.out.println(pDAO.getInstance(1));
+//		Person p = pDAO.getInstance(1);
+//		System.out.println(p);
+//		pDAO.deleteEntry(p);
+//		p = pDAO.getInstance(1);
+//		System.out.println(p);
 ////		System.out.println(pDAO.isIdFree(1));
 ////		System.out.println(pDAO.isIdFree(3));
-
+		
+		
+		// New Company fields testing
+		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+		List<GenericDAO<?>> daos = new ArrayList<>();
+		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+		daos.add(pDAO);
+		CompanyDAO cDAO = new MySqlCompanyDAO(dcm,pDAO);
+		daos.add(cDAO);
+		DatabaseSetup.setUpDatabse(daos, false);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Date date1 = dateFormat.parse("05/04/1985");
+		
+		Person p1 = Person.getInstance(3, CountryCode.US, "Curtis", null, "Jackson", date1);
+//		pDAO.saveInstance(p1);
+//		Company c1 = Company.getInstance(1, "Abeco Inc.", "New York City", p1);
+//		cDAO.saveInstance(c1);
+//		Company.dispose(c1);
+//		c1 = null;
+		Company c = cDAO.getInstance(1);
+		System.out.println(c);
+		c.setHeadquarters("Los Angeles");
+		cDAO.updateEntry(c);
+		Company.dispose(c);
+		c = null;
+		c = cDAO.getInstance(1);
+		System.out.println(c);
+		
 	}
 
 }

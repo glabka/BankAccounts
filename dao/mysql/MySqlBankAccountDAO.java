@@ -8,6 +8,12 @@ import domain.BankCode;
 public class MySqlBankAccountDAO extends BankAccountDAO{
 
 	@Override
+	public void deleteEntry(BankAccount instance) throws DatabaseException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return null;
@@ -41,6 +47,12 @@ public class MySqlBankAccountDAO extends BankAccountDAO{
 	public boolean isAccountNumberFree(BankCode bankCode, String accountNum) throws DatabaseException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getTableName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

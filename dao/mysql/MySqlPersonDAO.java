@@ -41,8 +41,19 @@ public class MySqlPersonDAO extends PersonDAO {
 		dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 	}
 
+	@Override
+	public void deleteEntry(Person instance) throws DatabaseException {
+		try {
+			stmt.executeUpdate(
+					MySqlCommFun.DELETE + this.tableName + " where " + fieldNames[0] + " = " + instance.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
 	/**
-	 * Returns null if no entry for specific personID is found.
+	 * Returns null if no entry for specific id is found.
 	 * 
 	 * @param id
 	 * @throws DatabaseException
@@ -76,9 +87,11 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void saveInstance(Person instance) throws DatabaseException {
 		try {
 			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values(" + instance.getId() + ", "
-					+ MySqlCommFun.addParentheses(instance.getCountry().toString()) + ", " + MySqlCommFun.addParentheses(instance.getFirstName())
-					+ ", " + MySqlCommFun.addParentheses(instance.getMiddleName()) + ", " + MySqlCommFun.addParentheses(instance.getLastName())
-					+ ", " + MySqlCommFun.addParentheses(dateFormat.format(instance.getBirthdate())) + ")");
+					+ MySqlCommFun.addParentheses(instance.getCountry().toString()) + ", "
+					+ MySqlCommFun.addParentheses(instance.getFirstName()) + ", "
+					+ MySqlCommFun.addParentheses(instance.getMiddleName()) + ", "
+					+ MySqlCommFun.addParentheses(instance.getLastName()) + ", "
+					+ MySqlCommFun.addParentheses(dateFormat.format(instance.getBirthdate())) + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
