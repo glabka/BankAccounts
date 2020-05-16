@@ -16,8 +16,10 @@ public class Company implements BankAccountOwner {
 	private Person executiveDirector;
 
 	private Company(int id, String name, String headquarters, Person executiveDirector) {
+		this.id = id;
 		this.name = name;
 		this.headquarters = headquarters;
+		this.executiveDirector = executiveDirector;
 		companies.put(id, this);
 	}
 
