@@ -21,6 +21,10 @@ public class MySqlCommFun {
 		return "int(" + i + ")";
 	}
 	
+	public static String bigInt(int i) {
+		return "bigint(" + i + ")";
+	}
+	
 	/**
 	 * Adds parentheses if string is different from null.
 	 * 

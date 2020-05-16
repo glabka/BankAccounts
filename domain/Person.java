@@ -59,7 +59,6 @@ public class Person implements BankAccountOwner {
 	 * Can return null if person wasn't instantiated yet.
 	 * 
 	 * @param id
-	 * @param country
 	 * @return
 	 */
 	public static Person getInstance(int id) {

@@ -1,23 +1,24 @@
 package clients;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.neovisionaries.i18n.CountryCode;
-
+import bankAccount.BankAccount;
+import dao.BankAccountDAO;
 import dao.CompanyDAO;
 import dao.GenericDAO;
 import dao.PersonDAO;
+import dao.mysql.MySqlBankAccountDAO;
 import dao.mysql.MySqlCompanyDAO;
 import dao.mysql.MySqlPersonDAO;
 import database.DatabaseSetup;
 import database.MySqlDatabaseConnectionManager;
-import domain.Company;
-import domain.Person;
+import domain.BankCode;
 
 public class TestMain {
+	// TODO input verification in Person, Company, BankAccount, UserAccount...
+	// TODO plus change the more specific getInstance of these classes to createNewInstance (with throwing InstanceAlreadyExistsException)
+	// TODO add InstanceAlreadySavedException into saving logic of DAO classes
 
 	public static void main(String[] args) throws Exception {
 //		Person p1 = Person.getIstance(0, "Helen", null, "Miowic");
@@ -110,32 +111,66 @@ public class TestMain {
 ////		System.out.println(pDAO.isIdFree(3));
 		
 		
-		// New Company fields testing
+//		// New Company fields testing
+//		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+//		List<GenericDAO<?>> daos = new ArrayList<>();
+//		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+//		daos.add(pDAO);
+//		CompanyDAO cDAO = new MySqlCompanyDAO(dcm,pDAO);
+//		daos.add(cDAO);
+//		DatabaseSetup.setUpDatabse(daos, false);
+//		
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//		Date date1 = dateFormat.parse("05/04/1985");
+//		
+//		Person p1 = Person.getInstance(3, CountryCode.US, "Curtis", null, "Jackson", date1);
+////		pDAO.saveInstance(p1);
+////		Company c1 = Company.getInstance(1, "Abeco Inc.", "New York City", p1);
+////		cDAO.saveInstance(c1);
+////		Company.dispose(c1);
+////		c1 = null;
+//		Company c = cDAO.getInstance(1);
+//		System.out.println(c);
+//		c.setHeadquarters("Los Angeles");
+//		cDAO.updateEntry(c);
+//		Company.dispose(c);
+//		c = null;
+//		c = cDAO.getInstance(1);
+//		System.out.println(c);
+//		
+////		cDAO.deleteEntry(c);
+////		c = cDAO.getInstance(1);
+////		System.out.println(c);
+		
+		
+		// MySqlBankAccountDAO testing
 		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 		List<GenericDAO<?>> daos = new ArrayList<>();
 		PersonDAO pDAO = new MySqlPersonDAO(dcm);
 		daos.add(pDAO);
 		CompanyDAO cDAO = new MySqlCompanyDAO(dcm,pDAO);
 		daos.add(cDAO);
+		BankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
+		daos.add(baDAO);
 		DatabaseSetup.setUpDatabse(daos, false);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-		Date date1 = dateFormat.parse("05/04/1985");
+		String accountNum = "123456789012";
+		BankAccount ba = BankAccount.getInstance(BankCode.C1000, accountNum, 5);
+		baDAO.saveInstance(ba);
+		ba.dispose(ba);
+		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		System.out.println(ba);
 		
-		Person p1 = Person.getInstance(3, CountryCode.US, "Curtis", null, "Jackson", date1);
-//		pDAO.saveInstance(p1);
-//		Company c1 = Company.getInstance(1, "Abeco Inc.", "New York City", p1);
-//		cDAO.saveInstance(c1);
-//		Company.dispose(c1);
-//		c1 = null;
-		Company c = cDAO.getInstance(1);
-		System.out.println(c);
-		c.setHeadquarters("Los Angeles");
-		cDAO.updateEntry(c);
-		Company.dispose(c);
-		c = null;
-		c = cDAO.getInstance(1);
-		System.out.println(c);
+		ba.setAccountBalance(10);
+		baDAO.updateEntry(ba);
+		ba.dispose(ba);
+		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		System.out.println(ba);
+		
+		baDAO.deleteEntry(ba);
+		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		System.out.println("should be null: " + ba);
+		
 		
 	}
 
