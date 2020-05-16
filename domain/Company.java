@@ -8,7 +8,7 @@ public class Company implements BankAccountOwner{
 	/**
 	 * key is id of company
 	 */
-	private Map<Integer, Company> companies = new HashMap<Integer, Company>();
+	private static Map<Integer, Company> companies = new HashMap<Integer, Company>();
 	
 	private int id;
 	private String name;
@@ -29,7 +29,7 @@ public class Company implements BankAccountOwner{
 	 * @param headquarters
 	 * @return
 	 */
-	public Company getInstance(int id, String name, String headquarters, Person executiveDirector) {
+	public static Company getInstance(int id, String name, String headquarters, Person executiveDirector) {
 		Company company = companies.get(id);
 		if(company != null) {
 			return company;
@@ -42,7 +42,7 @@ public class Company implements BankAccountOwner{
 	 * Might return null in case company is not instantiated
 	 * @param name
 	 */
-	public Company getInstance(int id) {
+	public static Company getInstance(int id) {
 		return companies.get(id);
 	}
 	
