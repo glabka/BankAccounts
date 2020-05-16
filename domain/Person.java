@@ -62,7 +62,7 @@ public class Person implements BankAccountOwner {
 	 * @param country
 	 * @return
 	 */
-	public static Person getInstance(int id, CountryCode country) {
+	public static Person getInstance(int id) {
 		return people.get(id);
 	}
 
