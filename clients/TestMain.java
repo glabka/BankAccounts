@@ -1,10 +1,18 @@
 package clients;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.neovisionaries.i18n.CountryCode;
 
+import dao.GenericDAO;
 import dao.PersonDAO;
 import dao.mysql.MySqlPersonDAO;
+import database.DatabaseSetup;
 import database.MySqlDatabaseConnectionManager;
+import domain.Person;
 
 public class TestMain {
 
@@ -70,27 +78,29 @@ public class TestMain {
 //		// MySqlPersonDAO update method
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 //		PersonDAO pDAO = new MySqlPersonDAO(dcm);
-//		Person p = pDAO.getPerson("1", CountryCode.US);
+//		Person p = pDAO.getInstance(1);
 //		p.setFirstName("Ailian");
-//		pDAO.updatePerson(p);
+//		pDAO.updateEntry(p);
 		
 		
 //		// New Person fields testing 2
 //		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 //		PersonDAO pDAO = new MySqlPersonDAO(dcm);
-////		MySqlDatabaseSetup.setUpDatabse(dcm, true);
+////		List<GenericDAO<?>> daos = new ArrayList<>();
+////		daos.add(new MySqlPersonDAO(dcm));
+////		DatabaseSetup.setUpDatabse(daos, true);
 ////		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 ////		Date date1 = dateFormat.parse("03/09/1984");
+////		
+////		Person p1 = Person.getInstance(1, CountryCode.US, "Helen", null, "Miowic", date1);
+////		Person p2 = Person.getInstance(2, CountryCode.US, "Adam", null, "Green", dateFormat.parse("05/20/1990"));
+////		
+////		pDAO.saveInstance(p1);
+////		pDAO.saveInstance(p2);
 //		
-////		Person p1 = Person.getInstance("1", CountryCode.US, "Helen", null, "Miowic", date1);
-////		Person p2 = Person.getInstance("2", CountryCode.US, "Adam", null, "Green", dateFormat.parse("05/20/1990"));
-//		
-////		pDAO.savePerson(p1);
-////		pDAO.savePerson(p2);
-//		
-//		System.out.println(pDAO.getInstance("1", CountryCode.US));
-//		System.out.println(pDAO.isIdFree("1", CountryCode.US));
-//		System.out.println(pDAO.isIdFree("3", CountryCode.US));
+//		System.out.println(pDAO.getInstance(1));
+////		System.out.println(pDAO.isIdFree(1));
+////		System.out.println(pDAO.isIdFree(3));
 
 	}
 

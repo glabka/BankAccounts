@@ -24,10 +24,9 @@ public class MySqlPersonDAO extends PersonDAO {
 
 	private static String[] fieldNames = { "person_id", "country", "first_name", "middle_name", "last_name",
 			"brithdate" };
-	private static String[] fieldTypes = { MySqlCommFun.varchar(40) + MySqlCommFun.NOT_NULL,
-			MySqlCommFun.varchar(2) + MySqlCommFun.NOT_NULL, MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL,
-			MySqlCommFun.varchar(30), MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL,
-			MySqlCommFun.varchar(10) + MySqlCommFun.NOT_NULL };
+	private static String[] fieldTypes = { MySqlCommFun.integer(11), MySqlCommFun.varchar(2) + MySqlCommFun.NOT_NULL,
+			MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL, MySqlCommFun.varchar(30),
+			MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL, MySqlCommFun.varchar(10) + MySqlCommFun.NOT_NULL };
 	private String tableName = "people";
 
 	public MySqlPersonDAO(MySqlDatabaseConnectionManager mySqlDcm) throws ClassNotFoundException, DatabaseException {
@@ -49,14 +48,14 @@ public class MySqlPersonDAO extends PersonDAO {
 	 * @throws DatabaseException
 	 */
 	@Override
-	public Person getInstance(String id, CountryCode country) throws DatabaseException {
+	public Person getInstance(int id) throws DatabaseException {
 		String dateString = "";
 		try {
-			ResultSet rs = stmt.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = "
-					+ addParentheses(id) + " and " + fieldNames[1] + " = " + addParentheses(country.toString()));
+			ResultSet rs = stmt
+					.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = " + id);
 			if (rs.next()) {
 				dateString = rs.getString(6);
-				Person p = Person.getInstance(rs.getString(1), CountryCode.valueOf(rs.getString(2)), rs.getString(3),
+				Person p = Person.getInstance(rs.getInt(1), CountryCode.valueOf(rs.getString(2)), rs.getString(3),
 						rs.getString(4), rs.getString(5), dateFormat.parse(dateString));
 				rs.close();
 				return p;
@@ -76,10 +75,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	@Override
 	public void saveInstance(Person instance) throws DatabaseException {
 		try {
-			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values( '" + instance.getId() + "', '"
-					+ instance.getCountry().toString() + "', '" + instance.getFirstName() + "', "
-					+ addParentheses(instance.getMiddleName()) + ", '" + instance.getLastName() + "', '"
-					+ dateFormat.format(instance.getBirthdate()) + "')");
+			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values(" + instance.getId() + ", "
+					+ addParentheses(instance.getCountry().toString()) + ", " + addParentheses(instance.getFirstName())
+					+ ", " + addParentheses(instance.getMiddleName()) + ", " + addParentheses(instance.getLastName())
+					+ ", " + addParentheses(dateFormat.format(instance.getBirthdate())) + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
@@ -104,8 +103,8 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void updateEntry(Person instance) throws DatabaseException {
 		try {
 			stmt.execute(MySqlCommFun.UPDATE + this.tableName + " set " + createPartOfUpdateStatement(instance)
-					+ " where " + fieldNames[0] + " = " + addParentheses(instance.getId()) + " and " + fieldNames[1]
-					+ " = " + addParentheses(instance.getCountry().toString()));
+					+ " where " + fieldNames[0] + " = " + instance.getId() + " and " + fieldNames[1] + " = "
+					+ addParentheses(instance.getCountry().toString()));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
@@ -114,7 +113,7 @@ public class MySqlPersonDAO extends PersonDAO {
 
 	private String createPartOfUpdateStatement(Person person) {
 		String equals = " = ";
-		String str = fieldNames[0] + equals + addParentheses(person.getId()) + ", " + fieldNames[1] + equals
+		String str = fieldNames[0] + equals + person.getId() + ", " + fieldNames[1] + equals
 				+ addParentheses(person.getCountry().toString()) + ", " + fieldNames[2] + equals
 				+ addParentheses(person.getFirstName()) + ", " + fieldNames[3] + equals
 				+ addParentheses(person.getMiddleName()) + ", " + fieldNames[4] + equals
@@ -127,7 +126,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void setUpDatabase(boolean forced) throws DatabaseException {
 		try {
 			String createCMDSuffix = " (" + MySqlCommFun.createTableType(fieldNames, fieldTypes) + ", primary key ("
-					+ fieldNames[0] + ", " + fieldNames[1] + "))";
+					+ fieldNames[0] + "))";
 			if (forced) {
 				stmt.executeUpdate(MySqlCommFun.DROP_TABLE_IE + this.tableName);
 			}
@@ -149,10 +148,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	}
 
 	@Override
-	public boolean isIdFree(String id, CountryCode country) throws DatabaseException {
+	public boolean isIdFree(int id) throws DatabaseException {
 		try {
-			ResultSet rs = stmt.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = "
-					+ addParentheses(id) + " and " + fieldNames[1] + " = " + addParentheses(country.toString()));
+			ResultSet rs = stmt
+					.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = " + id);
 			if (rs.next()) {
 				rs.close();
 				return false;

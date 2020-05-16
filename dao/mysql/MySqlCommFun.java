@@ -16,6 +16,10 @@ public class MySqlCommFun {
 		return "varchar(" + i + ")";
 	}
 	
+	public static String integer(int i) {
+		return "int(" + i + ")";
+	}
+	
 	public static String createTableType(String[] fieldNames, String[] fieldTypes) {
 		if (fieldNames.length != fieldTypes.length) {
 			throw new IllegalArgumentException("input parameters fieldNames and fieldTypes must be of same length.");

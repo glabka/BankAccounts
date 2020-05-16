@@ -10,29 +10,23 @@ import com.neovisionaries.i18n.CountryCode;
 
 public class Person implements BankAccountOwner {
 
-	private static Map<String, Person> people = new HashMap<String, Person>();
-	// TODO probably change primary identification from country + id (passport) to just unique id
-	// TODO because id (passport) can change with new passport.
+	private static Map<Integer, Person> people = new HashMap<Integer, Person>();
 	
-	private String id;
+	private int id;
 	private CountryCode country;
 	private String firstName;
 	private String middleName;
 	private String lastName;
 	private Date birthdate;
 
-	private Person(String id, CountryCode country, String firstName, String middleName, String lastName, Date birthdate) {
+	private Person(int id, CountryCode country, String firstName, String middleName, String lastName, Date birthdate) {
 		this.id = id;
 		this.country = country;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
-		people.put(createKeyForMap(id, country), this);
-	}
-
-	private static String createKeyForMap(String id, CountryCode country) {
-		return id + country.toString();
+		people.put(id, this);
 	}
 
 	/**
@@ -49,10 +43,10 @@ public class Person implements BankAccountOwner {
 	 * @param birthdate
 	 * @return
 	 */
-	public static Person getInstance(String id, CountryCode country, String firstName, String middleName, String lastName,
+	public static Person getInstance(int id, CountryCode country, String firstName, String middleName, String lastName,
 			Date birthdate) {
-		// TODO check fields are not null
-		Person p = people.get(createKeyForMap(id, country));
+		// TODO check fields are not null and whether strings are of certain length
+		Person p = people.get(id);
 		if (p == null) {
 			return new Person(id, country, firstName, middleName, lastName, birthdate);
 		} else {
@@ -68,15 +62,15 @@ public class Person implements BankAccountOwner {
 	 * @param country
 	 * @return
 	 */
-	public static Person getInstance(String id, CountryCode country) {
-		return people.get(createKeyForMap(id, country));
+	public static Person getInstance(int id, CountryCode country) {
+		return people.get(id);
 	}
 
 	public static List<Person> getAllInstances() {
 		return new ArrayList<Person>(people.values());
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -134,7 +128,7 @@ public class Person implements BankAccountOwner {
 	 * @param person
 	 */
 	public void dispose(Person person) {
-		people.remove(createKeyForMap(person.getId(), person.getCountry()));
+		people.remove(person.getId());
 	}
 	
 	/**
