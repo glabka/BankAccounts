@@ -76,26 +76,12 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void saveInstance(Person instance) throws DatabaseException {
 		try {
 			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values(" + instance.getId() + ", "
-					+ addParentheses(instance.getCountry().toString()) + ", " + addParentheses(instance.getFirstName())
-					+ ", " + addParentheses(instance.getMiddleName()) + ", " + addParentheses(instance.getLastName())
-					+ ", " + addParentheses(dateFormat.format(instance.getBirthdate())) + ")");
+					+ MySqlCommFun.addParentheses(instance.getCountry().toString()) + ", " + MySqlCommFun.addParentheses(instance.getFirstName())
+					+ ", " + MySqlCommFun.addParentheses(instance.getMiddleName()) + ", " + MySqlCommFun.addParentheses(instance.getLastName())
+					+ ", " + MySqlCommFun.addParentheses(dateFormat.format(instance.getBirthdate())) + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Adds parentheses if string is different from null.
-	 * 
-	 * @param s
-	 * @return
-	 */
-	private String addParentheses(String s) {
-		if (s == null) {
-			return s;
-		} else {
-			return "'" + s + "'";
 		}
 	}
 
@@ -103,8 +89,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void updateEntry(Person instance) throws DatabaseException {
 		try {
 			stmt.execute(MySqlCommFun.UPDATE + this.tableName + " set " + createPartOfUpdateStatement(instance)
-					+ " where " + fieldNames[0] + " = " + instance.getId() + " and " + fieldNames[1] + " = "
-					+ addParentheses(instance.getCountry().toString()));
+					+ " where " + fieldNames[0] + " = " + instance.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
@@ -114,11 +99,11 @@ public class MySqlPersonDAO extends PersonDAO {
 	private String createPartOfUpdateStatement(Person person) {
 		String equals = " = ";
 		String str = fieldNames[0] + equals + person.getId() + ", " + fieldNames[1] + equals
-				+ addParentheses(person.getCountry().toString()) + ", " + fieldNames[2] + equals
-				+ addParentheses(person.getFirstName()) + ", " + fieldNames[3] + equals
-				+ addParentheses(person.getMiddleName()) + ", " + fieldNames[4] + equals
-				+ addParentheses(person.getLastName()) + ", " + fieldNames[5] + equals
-				+ addParentheses(this.dateFormat.format(person.getBirthdate()));
+				+ MySqlCommFun.addParentheses(person.getCountry().toString()) + ", " + fieldNames[2] + equals
+				+ MySqlCommFun.addParentheses(person.getFirstName()) + ", " + fieldNames[3] + equals
+				+ MySqlCommFun.addParentheses(person.getMiddleName()) + ", " + fieldNames[4] + equals
+				+ MySqlCommFun.addParentheses(person.getLastName()) + ", " + fieldNames[5] + equals
+				+ MySqlCommFun.addParentheses(this.dateFormat.format(person.getBirthdate()));
 		return str;
 	}
 
@@ -163,6 +148,11 @@ public class MySqlPersonDAO extends PersonDAO {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());
 		}
+	}
+
+	@Override
+	public String getTableName() {
+		return this.tableName;
 	}
 
 }
