@@ -3,7 +3,6 @@ package overall_tests.dao;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -11,7 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadyExistsException;
 import dao.GenericDAO;
 import dao.PersonDAO;
 import dao.mysql.MySqlPersonDAO;
@@ -22,7 +22,7 @@ import domain.Person;
 class PersonDAOTest {
 
 	@BeforeAll
-	public void prepare() throws ClassNotFoundException, DatabaseException, ParseException {
+	public void prepare() throws ClassNotFoundException, DatabaseException, ParseException, InstanceAlreadyExistsException {
 		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 		List<GenericDAO<?>> daos = new ArrayList<>();
 		PersonDAO pDAO = new MySqlPersonDAO(dcm);
