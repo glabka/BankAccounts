@@ -1,5 +1,5 @@
-package idManagers;
-import customExceptions.DatabaseException;
+package id_managers;
+import custom_exceptions.DatabaseException;
 import domain.BankCode;
 
 public abstract class BankAccountNumChecker {

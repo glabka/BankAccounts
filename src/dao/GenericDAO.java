@@ -1,6 +1,6 @@
 package dao;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 
 public abstract class GenericDAO<T> {
 

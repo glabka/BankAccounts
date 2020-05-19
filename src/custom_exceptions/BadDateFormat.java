@@ -1,4 +1,4 @@
-package customExceptions;
+package custom_exceptions;
 
 public class BadDateFormat extends RuntimeException{
 

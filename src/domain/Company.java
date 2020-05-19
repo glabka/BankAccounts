@@ -3,7 +3,7 @@ package domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import customExceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadyExistsException;
 
 public class Company implements BankAccountOwner, Multiton{
 

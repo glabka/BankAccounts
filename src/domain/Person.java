@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import customExceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadyExistsException;
 
 public class Person implements BankAccountOwner, Multiton{
 

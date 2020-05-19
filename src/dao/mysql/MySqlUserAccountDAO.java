@@ -1,8 +1,8 @@
 package dao.mysql;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 import dao.UserAccountDAO;
-import userAccount.UserAccount;
+import user_account.UserAccount;
 
 public class MySqlUserAccountDAO extends UserAccountDAO{
 

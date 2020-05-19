@@ -1,4 +1,4 @@
-package userAccount;
+package user_account;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bankAccount.BankAccount;
-import customExceptions.InstanceAlreadyExistsException;
+import bank_account.BankAccount;
+import custom_exceptions.InstanceAlreadyExistsException;
 import domain.BankAccountOwner;
 import domain.BankCode;
 import domain.Multiton;

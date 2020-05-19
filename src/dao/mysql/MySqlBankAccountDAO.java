@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import bankAccount.BankAccount;
-import customExceptions.DatabaseException;
+import bank_account.BankAccount;
+import custom_exceptions.DatabaseException;
 import dao.BankAccountDAO;
 import database.MySqlDatabaseConnectionManager;
 import domain.BankCode;

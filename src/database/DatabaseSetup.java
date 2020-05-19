@@ -2,7 +2,7 @@ package database;
 
 import java.util.List;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 import dao.GenericDAO;
 
 public class DatabaseSetup {

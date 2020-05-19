@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 
 public class MySqlDatabaseConnectionManager {
 

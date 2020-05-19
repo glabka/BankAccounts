@@ -1,6 +1,6 @@
 package dao;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 import domain.Person;
 
 public abstract class PersonDAO extends GenericDAO<Person>{

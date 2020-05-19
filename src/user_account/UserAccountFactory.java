@@ -1,4 +1,4 @@
-package userAccount;
+package user_account;
 
 import domain.BankAccountOwner;
 import domain.BankCode;

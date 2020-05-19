@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import customExceptions.DatabaseException;
+import custom_exceptions.DatabaseException;
 import dao.CompanyDAO;
 import dao.PersonDAO;
 import database.MySqlDatabaseConnectionManager;

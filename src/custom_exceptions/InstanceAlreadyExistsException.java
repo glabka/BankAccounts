@@ -1,4 +1,4 @@
-package customExceptions;
+package custom_exceptions;
 
 import domain.Multiton;
 

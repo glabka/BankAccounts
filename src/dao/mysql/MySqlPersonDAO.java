@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import customExceptions.BadDateFormat;
-import customExceptions.DatabaseException;
+import custom_exceptions.BadDateFormat;
+import custom_exceptions.DatabaseException;
 import dao.PersonDAO;
 import database.MySqlDatabaseConnectionManager;
 import domain.Person;

@@ -1,7 +1,7 @@
 package dao;
 
-import bankAccount.BankAccount;
-import customExceptions.DatabaseException;
+import bank_account.BankAccount;
+import custom_exceptions.DatabaseException;
 import domain.BankCode;
 
 public abstract class BankAccountDAO extends GenericDAO<BankAccount>{

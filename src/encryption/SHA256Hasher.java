@@ -1,10 +1,10 @@
-	package encryption;
+package encryption;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import customExceptions.HashFailureException;
+import custom_exceptions.HashFailureException;
 
 public class SHA256Hasher extends Hasher {
 

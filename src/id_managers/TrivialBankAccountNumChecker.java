@@ -1,4 +1,4 @@
-package idManagers;
+package id_managers;
 import domain.BankCode;
 
 public class TrivialBankAccountNumChecker extends BankAccountNumChecker{

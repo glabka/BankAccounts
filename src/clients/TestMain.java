@@ -3,7 +3,7 @@ package clients;
 import java.util.ArrayList;
 import java.util.List;
 
-import bankAccount.BankAccount;
+import bank_account.BankAccount;
 import dao.BankAccountDAO;
 import dao.CompanyDAO;
 import dao.GenericDAO;

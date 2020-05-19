@@ -1,9 +1,9 @@
-package bankAccount;
+package bank_account;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import customExceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadyExistsException;
 import domain.BankCode;
 import domain.Multiton;
 

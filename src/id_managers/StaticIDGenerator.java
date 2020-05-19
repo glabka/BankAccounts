@@ -1,4 +1,4 @@
-package idManagers;
+package id_managers;
 
 public class StaticIDGenerator extends IDGenerator {
 
