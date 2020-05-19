@@ -8,7 +8,9 @@ import java.util.Map;
 
 import com.neovisionaries.i18n.CountryCode;
 
-public class Person implements BankAccountOwner {
+import customExceptions.InstanceAlreadyExistsException;
+
+public class Person implements BankAccountOwner, Multiton{
 
 	private static Map<Integer, Person> people = new HashMap<Integer, Person>();
 	
@@ -42,15 +44,16 @@ public class Person implements BankAccountOwner {
 	 * @param lastName
 	 * @param birthdate
 	 * @return
+	 * @throws InstanceAlreadyExistsException 
 	 */
 	public static Person getInstance(int id, CountryCode country, String firstName, String middleName, String lastName,
-			Date birthdate) {
+			Date birthdate) throws InstanceAlreadyExistsException {
 		// TODO check fields are not null and whether strings are of certain length
 		Person p = people.get(id);
 		if (p == null) {
 			return new Person(id, country, firstName, middleName, lastName, birthdate);
 		} else {
-			return p;
+			throw new InstanceAlreadyExistsException(p);
 		}
 	}
 
@@ -139,5 +142,10 @@ public class Person implements BankAccountOwner {
 	 */
 	public void disposeAll() {
 		people.clear();
+	}
+
+	@Override
+	public String getStringId() {
+		return String.valueOf(this.getId());
 	}
 }

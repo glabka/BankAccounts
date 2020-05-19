@@ -55,7 +55,7 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 					+ MySqlCommFun.addParentheses(bankCode.toString()) + " and " + fieldNames[1] + " = "
 					+ MySqlCommFun.addParentheses(accountNum));
 			if (rs.next()) {
-				BankAccount ba = BankAccount.getInstance(BankCode.valueOf(rs.getString(1)), rs.getString(2),
+				BankAccount ba = BankAccount.createNewInstance(BankCode.valueOf(rs.getString(1)), rs.getString(2),
 						Long.valueOf(rs.getString(3)));
 				rs.close();
 				return ba;

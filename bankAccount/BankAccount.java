@@ -3,9 +3,11 @@ package bankAccount;
 import java.util.HashMap;
 import java.util.Map;
 
+import customExceptions.InstanceAlreadyExistsException;
 import domain.BankCode;
+import domain.Multiton;
 
-public class BankAccount {
+public class BankAccount implements Multiton{
 
 	/**
 	 * Key is string combination of bankCode and accountNum
@@ -27,12 +29,12 @@ public class BankAccount {
 		return bankCode.toString() + accountNum;
 	}
 
-	public static BankAccount getInstance(BankCode bankCode, String accountNum, long accountBalance) {
+	public static BankAccount createNewInstance(BankCode bankCode, String accountNum, long accountBalance) throws InstanceAlreadyExistsException {
 		BankAccount bankAccount = bankAccounts.get(createKeyForMap(bankCode, accountNum));
 		if (bankAccount == null) {
 			return new BankAccount(bankCode, accountNum, accountBalance);
 		} else {
-			return bankAccount;
+			throw new InstanceAlreadyExistsException(bankAccount);
 		}
 	}
 
@@ -92,6 +94,11 @@ public class BankAccount {
 	 */
 	public void disposeAll() {
 		bankAccounts.clear();
+	}
+
+	@Override
+	public String getStringId() {
+		return "[" + this.getBankCode() + ", " + this.getAccountNum()+ "]";
 	}
 
 }

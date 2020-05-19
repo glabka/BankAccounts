@@ -3,7 +3,9 @@ package domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Company implements BankAccountOwner {
+import customExceptions.InstanceAlreadyExistsException;
+
+public class Company implements BankAccountOwner, Multiton{
 
 	/**
 	 * key is id of company
@@ -30,13 +32,14 @@ public class Company implements BankAccountOwner {
 	 * @param name
 	 * @param headquarters
 	 * @return
+	 * @throws InstanceAlreadyExistsException 
 	 */
-	public static Company getInstance(int id, String name, String headquarters, Person executiveDirector) {
+	public static Company createNewInstance(int id, String name, String headquarters, Person executiveDirector) throws InstanceAlreadyExistsException {
 		Company company = companies.get(id);
-		if (company != null) {
-			return company;
-		} else {
+		if (company == null) {
 			return new Company(id, name, headquarters, executiveDirector);
+		} else {
+			throw new InstanceAlreadyExistsException(company);
 		}
 	}
 
@@ -109,5 +112,10 @@ public class Company implements BankAccountOwner {
 	 */
 	public static void disposeAll() {
 		companies.clear();
+	}
+
+	@Override
+	public String getStringId() {
+		return String.valueOf(this.getId());
 	}
 }

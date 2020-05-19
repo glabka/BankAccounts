@@ -61,7 +61,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 				if (p == null) {
 					p = pDAO.getInstance(person_id);
 				}
-				Company c = Company.getInstance(rs.getInt(1), rs.getString(2), rs.getString(3), p);
+				Company c = Company.createNewInstance(rs.getInt(1), rs.getString(2), rs.getString(3), p);
 				rs.close();
 				return c;
 			} else {

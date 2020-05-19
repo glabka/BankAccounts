@@ -155,7 +155,7 @@ public class TestMain {
 		DatabaseSetup.setUpDatabse(daos, false);
 		
 		String accountNum = "123456789012";
-		BankAccount ba = BankAccount.getInstance(BankCode.C1000, accountNum, 5);
+		BankAccount ba = BankAccount.createNewInstance(BankCode.C1000, accountNum, 5);
 		baDAO.saveInstance(ba);
 		ba.dispose(ba);
 		ba = baDAO.getInstance(BankCode.C1000, accountNum);

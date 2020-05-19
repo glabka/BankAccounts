@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import bankAccount.BankAccount;
+import customExceptions.InstanceAlreadyExistsException;
 import domain.BankAccountOwner;
 import domain.BankCode;
+import domain.Multiton;
 
-public class UserAccount {
+public class UserAccount implements Multiton{
 
 	private static Map<Integer, UserAccount> userAccounts = new HashMap<Integer, UserAccount>();
 
@@ -63,15 +65,16 @@ public class UserAccount {
 	 * @param emailAddress
 	 * @param phoneNumber
 	 * @return
+	 * @throws InstanceAlreadyExistsException 
 	 */
 	public static UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String salt, String emailAddress, int phoneNumber){
+			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) throws InstanceAlreadyExistsException{
 		UserAccount userAccount = userAccounts.get(userAccountID);
 		if (userAccount == null) {
 			return new UserAccount(userAccountID, bc, accountOwner, usernameHash, passwordHash, salt, emailAddress,
 					phoneNumber);
 		} else {
-			return userAccount;
+			throw new InstanceAlreadyExistsException(userAccount);
 		}
 	}
 
@@ -151,6 +154,10 @@ public class UserAccount {
 		return bankCode;
 	}
 	
+	public int getId() {
+		return userAccountID;
+	}
+	
 	/**
 	 * Should be used after the end of usage of certain instance of UserAccount to free allocated
 	 * memory associated with this object. 
@@ -172,6 +179,11 @@ public class UserAccount {
 	 */
 	public void disposeAll() {
 		userAccounts.clear();
+	}
+
+	@Override
+	public String getStringId() {
+		return String.valueOf(this.getId());
 	}
 
 }
