@@ -85,6 +85,20 @@ public class Company implements BankAccountOwner, Multiton{
 		return "[" + this.getId() + ", " + this.getName() + ", " + this.getHeadquarters() + ", "
 				+ this.getExecutiveDirector() + "]";
 	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of Company to free
+	 * allocated memory associated with this object.
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all
+	 * references to instance of Company or its end of use can lead to existence of
+	 * two Company instances of one actual person.
+	 * 
+	 * @param company
+	 */
+	public void dispose() {
+		companies.remove(this.getId());
+	}
 
 	/**
 	 * Should be used after the end of usage of certain instance of Company to free

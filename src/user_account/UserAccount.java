@@ -166,7 +166,19 @@ public class UserAccount implements Multiton{
 	 * or its end of use can lead to existence of two UserAccount instances of one actual person.
 	 * @param userAccount
 	 */
-	public void dispose(UserAccount userAccount) {
+	public void dispose() {
+		userAccounts.remove(this.getUserAccountID());
+	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of UserAccount to free allocated
+	 * memory associated with this object. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to instance of UserAccount 
+	 * or its end of use can lead to existence of two UserAccount instances of one actual person.
+	 * @param userAccount
+	 */
+	public static void dispose(UserAccount userAccount) {
 		userAccounts.remove(userAccount.getUserAccountID());
 	}
 	
@@ -177,7 +189,7 @@ public class UserAccount implements Multiton{
 	 * BE AWARE that when used in any other way then right before loosing all references to all instances of UserAccount
 	 * or end of use of all instance can lead to existence of two UserAccount instances of one actual person.
 	 */
-	public void disposeAll() {
+	public static void disposeAll() {
 		userAccounts.clear();
 	}
 

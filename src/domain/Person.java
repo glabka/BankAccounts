@@ -120,6 +120,18 @@ public class Person implements BankAccountOwner, Multiton{
 		return "[" + this.getId() + ", " + this.getFirstName() + ", " + this.getMiddleName() + ", " + this.getLastName()
 				+ "]";
 	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of Person to free allocated
+	 * memory associated with this object. 
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all references to instance of Person
+	 * or its end of use can lead to existence of two Person instances of one actual person.
+	 * @param person
+	 */
+	public void dispose() {
+		people.remove(this.getId());
+	}
 
 	/**
 	 * Should be used after the end of usage of certain instance of Person to free allocated
@@ -129,7 +141,7 @@ public class Person implements BankAccountOwner, Multiton{
 	 * or its end of use can lead to existence of two Person instances of one actual person.
 	 * @param person
 	 */
-	public void dispose(Person person) {
+	public static void dispose(Person person) {
 		people.remove(person.getId());
 	}
 	
@@ -140,7 +152,7 @@ public class Person implements BankAccountOwner, Multiton{
 	 * BE AWARE that when used in any other way then right before loosing all references to all instances of Person
 	 * or end of use of all instance can lead to existence of two Person instances of one actual person.
 	 */
-	public void disposeAll() {
+	public static void disposeAll() {
 		people.clear();
 	}
 

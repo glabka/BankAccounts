@@ -80,7 +80,21 @@ public class BankAccount implements Multiton{
 	 * 
 	 * @param bankAccount
 	 */
-	public void dispose(BankAccount bankAccount) {
+	public void dispose() {
+		bankAccounts.remove(createKeyForMap(this.getBankCode(), this.getAccountNum()));
+	}
+	
+	/**
+	 * Should be used after the end of usage of certain instance of BankAccount to
+	 * free allocated memory associated with this object.
+	 * 
+	 * BE AWARE that when used in any other way then right before loosing all
+	 * references to instance of BankAccount or its end of use can lead to existence
+	 * of two BankAccount instances of one actual person.
+	 * 
+	 * @param bankAccount
+	 */
+	public static void dispose(BankAccount bankAccount) {
 		bankAccounts.remove(createKeyForMap(bankAccount.getBankCode(), bankAccount.getAccountNum()));
 	}
 
@@ -92,7 +106,7 @@ public class BankAccount implements Multiton{
 	 * references to all instances of BankAccount or end of use of all instance can
 	 * lead to existence of two BankAccount instances of one actual person.
 	 */
-	public void disposeAll() {
+	public static void disposeAll() {
 		bankAccounts.clear();
 	}
 
