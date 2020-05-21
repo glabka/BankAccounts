@@ -51,7 +51,7 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 	}
 
 	@Override
-	public BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException, InstanceAlreadyExistsException {
+	public BankAccount loadInstance(BankCode bankCode, String accountNum) throws DatabaseException, InstanceAlreadyExistsException {
 		try {
 			ResultSet rs = stmt.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = "
 					+ MySqlCommFun.addParentheses(bankCode.toString()) + " and " + fieldNames[1] + " = "

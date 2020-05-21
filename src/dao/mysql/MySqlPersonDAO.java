@@ -62,7 +62,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	 * @throws InstanceAlreadyExistsException 
 	 */
 	@Override
-	public Person getInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
+	public Person loadInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
 		String dateString = "";
 		try {
 			ResultSet rs = stmt

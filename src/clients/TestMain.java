@@ -157,17 +157,17 @@ public class TestMain {
 		BankAccount ba = BankAccount.createNewInstance(BankCode.C1000, accountNum, 5);
 		baDAO.saveInstance(ba);
 		ba.dispose(ba);
-		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
 		System.out.println(ba);
 		
 		ba.setAccountBalance(10);
 		baDAO.updateEntry(ba);
 		ba.dispose(ba);
-		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
 		System.out.println(ba);
 		
 		baDAO.deleteEntry(ba);
-		ba = baDAO.getInstance(BankCode.C1000, accountNum);
+		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
 		System.out.println("should be null: " + ba);
 		
 		

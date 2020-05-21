@@ -1,6 +1,7 @@
 package dao.mysql;
 
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadyExistsException;
 import custom_exceptions.InstanceAlreadySavedException;
 import dao.UserAccountDAO;
 import user_account.UserAccount;
@@ -14,13 +15,13 @@ public class MySqlUserAccountDAO extends UserAccountDAO{
 	}
 	
 	@Override
-	public UserAccount getInstance(int id) throws DatabaseException {
+	public UserAccount loadInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserAccount getInstance(byte[] usernameHash) throws DatabaseException {
+	public UserAccount loadInstance(byte[] usernameHash) throws DatabaseException, InstanceAlreadyExistsException {
 		// TODO Auto-generated method stub
 		return null;
 	}

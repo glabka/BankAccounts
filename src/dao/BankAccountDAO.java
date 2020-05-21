@@ -6,6 +6,6 @@ import custom_exceptions.InstanceAlreadyExistsException;
 import domain.BankCode;
 
 public abstract class BankAccountDAO extends GenericDAO<BankAccount>{
-	public abstract BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException, InstanceAlreadyExistsException;
+	public abstract BankAccount loadInstance(BankCode bankCode, String accountNum) throws DatabaseException, InstanceAlreadyExistsException;
 	public abstract boolean isAccountNumberFree(BankCode bankCode, String accountNum) throws DatabaseException;
 }

@@ -53,7 +53,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 	}
 
 	@Override
-	public Company getInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
+	public Company loadInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
 		try {
 			ResultSet rs = stmt
 					.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = " + id);
@@ -61,7 +61,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 				int person_id = rs.getInt(4);
 				Person p = Person.getInstance(person_id);
 				if (p == null) {
-					p = pDAO.getInstance(person_id);
+					p = pDAO.loadInstance(person_id);
 				}
 				Company c = Company.createNewInstance(rs.getInt(1), rs.getString(2), rs.getString(3), p);
 				rs.close();
