@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadySavedException;
 import dao.CompanyDAO;
 import dao.PersonDAO;
 import database.MySqlDatabaseConnectionManager;
@@ -51,7 +53,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 	}
 
 	@Override
-	public Company getInstance(int id) throws DatabaseException {
+	public Company getInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
 		try {
 			ResultSet rs = stmt
 					.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = " + id);
@@ -75,7 +77,10 @@ public class MySqlCompanyDAO extends CompanyDAO {
 	}
 
 	@Override
-	public void saveInstance(Company instance) throws DatabaseException {
+	public void saveInstance(Company instance) throws DatabaseException, InstanceAlreadySavedException {
+		if (!this.isIdFree(instance.getId())) {
+			throw new InstanceAlreadySavedException("Instance with id = " + instance.getId() + "has already been saved. For update of fields use updateEntry method.");
+		}
 		try {
 			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values(" + instance.getId() + ", "
 					+ MySqlCommFun.addParentheses(instance.getName()) + ", "
@@ -127,6 +132,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 	public void dispose() throws DatabaseException {
 		try {
 			stmt.close();
+			dcm.disconnect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());

@@ -11,6 +11,8 @@ import com.neovisionaries.i18n.CountryCode;
 
 import custom_exceptions.BadDateFormat;
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadySavedException;
 import dao.PersonDAO;
 import database.MySqlDatabaseConnectionManager;
 import domain.Person;
@@ -57,9 +59,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	 * 
 	 * @param id
 	 * @throws DatabaseException
+	 * @throws InstanceAlreadyExistsException 
 	 */
 	@Override
-	public Person getInstance(int id) throws DatabaseException {
+	public Person getInstance(int id) throws DatabaseException, InstanceAlreadyExistsException {
 		String dateString = "";
 		try {
 			ResultSet rs = stmt
@@ -84,7 +87,10 @@ public class MySqlPersonDAO extends PersonDAO {
 	}
 
 	@Override
-	public void saveInstance(Person instance) throws DatabaseException {
+	public void saveInstance(Person instance) throws DatabaseException, InstanceAlreadySavedException {
+		if (!this.isIdFree(instance.getId())) {
+			throw new InstanceAlreadySavedException("Instance with id = " + instance.getId() + "has already been saved. For update of fields use updateEntry method.");
+		}
 		try {
 			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values(" + instance.getId() + ", "
 					+ MySqlCommFun.addParentheses(instance.getCountry().toString()) + ", "
@@ -139,6 +145,7 @@ public class MySqlPersonDAO extends PersonDAO {
 	public void dispose() throws DatabaseException {
 		try {
 			stmt.close();
+			dcm.disconnect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());

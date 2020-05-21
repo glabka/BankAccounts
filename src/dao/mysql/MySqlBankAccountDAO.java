@@ -7,6 +7,8 @@ import java.sql.Statement;
 
 import bank_account.BankAccount;
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadyExistsException;
+import custom_exceptions.InstanceAlreadySavedException;
 import dao.BankAccountDAO;
 import database.MySqlDatabaseConnectionManager;
 import domain.BankCode;
@@ -49,7 +51,7 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 	}
 
 	@Override
-	public BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException {
+	public BankAccount getInstance(BankCode bankCode, String accountNum) throws DatabaseException, InstanceAlreadyExistsException {
 		try {
 			ResultSet rs = stmt.executeQuery(MySqlCommFun.SELECT + this.tableName + " where " + fieldNames[0] + " = "
 					+ MySqlCommFun.addParentheses(bankCode.toString()) + " and " + fieldNames[1] + " = "
@@ -70,7 +72,10 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 	}
 
 	@Override
-	public void saveInstance(BankAccount instance) throws DatabaseException {
+	public void saveInstance(BankAccount instance) throws DatabaseException, InstanceAlreadySavedException {
+		if (!this.isAccountNumberFree(instance.getBankCode(), instance.getAccountNum())) {
+			throw new InstanceAlreadySavedException("Instance with id = [" + instance.getBankCode() + ", "+ instance.getAccountNum() + "] has already been saved. For update of fields use updateEntry method.");
+		}
 		try {
 			stmt.executeUpdate(MySqlCommFun.INSERT + this.tableName + " values("
 					+ MySqlCommFun.addParentheses(instance.getBankCode().name()) + ","
@@ -121,6 +126,7 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 	public void dispose() throws DatabaseException {
 		try {
 			stmt.close();
+			dcm.disconnect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DatabaseException(e.getMessage());

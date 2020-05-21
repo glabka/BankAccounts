@@ -17,7 +17,6 @@ import domain.BankCode;
 
 public class TestMain {
 	// TODO input verification in Person, Company, BankAccount, UserAccount...
-	// TODO plus change the more specific getInstance of these classes to createNewInstance (with throwing InstanceAlreadyExistsException)
 	// TODO add InstanceAlreadySavedException into saving logic of DAO classes
 
 	public static void main(String[] args) throws Exception {

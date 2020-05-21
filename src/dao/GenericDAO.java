@@ -1,12 +1,13 @@
 package dao;
 
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadySavedException;
 
 public abstract class GenericDAO<T> {
 
 	public abstract String getTableName();
 	public abstract void deleteEntry(T instance) throws DatabaseException;
-	public abstract void saveInstance(T instance) throws DatabaseException;
+	public abstract void saveInstance(T instance) throws DatabaseException, InstanceAlreadySavedException;
 	public abstract void updateEntry(T instance) throws DatabaseException;
 	public abstract void setUpDatabase(boolean forced) throws DatabaseException;
 	public abstract void dispose() throws DatabaseException;

@@ -1,6 +1,7 @@
 package dao.mysql;
 
 import custom_exceptions.DatabaseException;
+import custom_exceptions.InstanceAlreadySavedException;
 import dao.UserAccountDAO;
 import user_account.UserAccount;
 
@@ -25,7 +26,10 @@ public class MySqlUserAccountDAO extends UserAccountDAO{
 	}
 
 	@Override
-	public void saveInstance(UserAccount instance) throws DatabaseException {
+	public void saveInstance(UserAccount instance) throws DatabaseException, InstanceAlreadySavedException {
+		if (!this.isIdFree(instance.getId())) {
+			throw new InstanceAlreadySavedException("Instance with id = " + instance.getId() + "has already been saved. For update of fields use updateEntry method.");
+		}
 		// TODO Auto-generated method stub
 		
 	}
