@@ -41,8 +41,11 @@ public class MySqlUserAccountDAO extends UserAccountDAO{
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void setUpDatabase(boolean forced) throws DatabaseException {
+	public void setUpDatabase() throws DatabaseException {
 		// TODO Auto-generated method stub
 		
 	}

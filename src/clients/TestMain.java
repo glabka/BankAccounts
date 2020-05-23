@@ -151,7 +151,7 @@ public class TestMain {
 		daos.add(cDAO);
 		BankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
 		daos.add(baDAO);
-		DatabaseSetup.setUpDatabse(daos, false);
+		DatabaseSetup.setUpDatabase(daos);
 		
 		String accountNum = "123456789012";
 		BankAccount ba = BankAccount.createNewInstance(BankCode.C1000, accountNum, 5);

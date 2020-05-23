@@ -46,7 +46,7 @@ public class Person implements BankAccountOwner, Multiton{
 	 * @return
 	 * @throws InstanceAlreadyExistsException 
 	 */
-	public static Person getInstance(int id, CountryCode country, String firstName, String middleName, String lastName,
+	public static Person createNewInstance(int id, CountryCode country, String firstName, String middleName, String lastName,
 			Date birthdate) throws InstanceAlreadyExistsException {
 		// TODO check fields are not null and whether strings are of certain length
 		Person p = people.get(id);

@@ -106,14 +106,14 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 		return str;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void setUpDatabase(boolean forced) throws DatabaseException {
+	public void setUpDatabase() throws DatabaseException {
 		try {
 			String createCMDSuffix = " (" + MySqlCommFun.createTableType(fieldNames, fieldTypes) + ", primary key ("
 					+ fieldNames[0] + ", " + fieldNames[1] + "))";
-			if (forced) {
-				stmt.executeUpdate(MySqlCommFun.DROP_TABLE_IE + this.tableName);
-			}
 			stmt.executeUpdate(MySqlCommFun.CREATE_TABLE_INE + this.tableName + createCMDSuffix);
 		} catch (SQLException e) {
 			e.printStackTrace();
