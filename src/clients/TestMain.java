@@ -3,17 +3,19 @@ package clients;
 import java.util.ArrayList;
 import java.util.List;
 
-import bank_account.BankAccount;
 import dao.BankAccountDAO;
 import dao.CompanyDAO;
 import dao.GenericDAO;
 import dao.PersonDAO;
+import dao.UserAccountDAO;
 import dao.mysql.MySqlBankAccountDAO;
 import dao.mysql.MySqlCompanyDAO;
 import dao.mysql.MySqlPersonDAO;
+import dao.mysql.MySqlUserAccountDAO;
 import database.DatabaseSetup;
 import database.MySqlDatabaseConnectionManager;
-import domain.BankCode;
+import database.MySqlTableDropper;
+import database.TableDropper;
 
 public class TestMain {
 	// TODO input verification in Person, Company, BankAccount, UserAccount...
@@ -143,34 +145,46 @@ public class TestMain {
 		
 		
 		// MySqlBankAccountDAO testing
+//		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
+//		List<GenericDAO<?>> daos = new ArrayList<>();
+//		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+//		daos.add(pDAO);
+//		CompanyDAO cDAO = new MySqlCompanyDAO(dcm,pDAO);
+//		daos.add(cDAO);
+//		BankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
+//		daos.add(baDAO);
+//		DatabaseSetup.setUpDatabase(daos);
+//		
+//		String accountNum = "123456789012";
+//		BankAccount ba = BankAccount.createNewInstance(BankCode.C1000, accountNum, 5);
+//		baDAO.saveInstance(ba);
+//		ba.dispose(ba);
+//		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
+//		System.out.println(ba);
+//		
+//		ba.setAccountBalance(10);
+//		baDAO.updateEntry(ba);
+//		ba.dispose(ba);
+//		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
+//		System.out.println(ba);
+//		
+//		baDAO.deleteEntry(ba);
+//		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
+//		System.out.println("should be null: " + ba);
+		
+		
 		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 		List<GenericDAO<?>> daos = new ArrayList<>();
 		PersonDAO pDAO = new MySqlPersonDAO(dcm);
 		daos.add(pDAO);
-		CompanyDAO cDAO = new MySqlCompanyDAO(dcm,pDAO);
+		CompanyDAO cDAO = new MySqlCompanyDAO(dcm, pDAO);
 		daos.add(cDAO);
 		BankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
 		daos.add(baDAO);
-		DatabaseSetup.setUpDatabase(daos);
-		
-		String accountNum = "123456789012";
-		BankAccount ba = BankAccount.createNewInstance(BankCode.C1000, accountNum, 5);
-		baDAO.saveInstance(ba);
-		ba.dispose(ba);
-		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
-		System.out.println(ba);
-		
-		ba.setAccountBalance(10);
-		baDAO.updateEntry(ba);
-		ba.dispose(ba);
-		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
-		System.out.println(ba);
-		
-		baDAO.deleteEntry(ba);
-		ba = baDAO.loadInstance(BankCode.C1000, accountNum);
-		System.out.println("should be null: " + ba);
-		
-		
+		UserAccountDAO uaDAO = new MySqlUserAccountDAO();
+		daos.add(uaDAO);
+		TableDropper td = new MySqlTableDropper(dcm);
+		DatabaseSetup.setUpDatabase(daos, td);
 	}
 
 }

@@ -5,7 +5,13 @@ import custom_exceptions.InstanceAlreadySavedException;
 
 public abstract class GenericDAO<T> {
 
-	public abstract String getTableName();
+	/**
+	 * Method returns array of String containing all table names in database used for storing
+	 * DAO's object.
+	 * @return array of String containing all table names in database used for storing
+	 * DAO's object.
+	 */
+	public abstract String[] getTableNames();
 	public abstract void deleteEntry(T instance) throws DatabaseException;
 	public abstract void saveInstance(T instance) throws DatabaseException, InstanceAlreadySavedException;
 	public abstract void updateEntry(T instance) throws DatabaseException;

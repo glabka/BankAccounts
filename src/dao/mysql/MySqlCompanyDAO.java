@@ -119,7 +119,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 	public void setUpDatabase() throws DatabaseException {
 		try {
 			String createCMDSuffix = " (" + MySqlCommFun.createTableType(fieldNames, fieldTypes) + ", primary key ("
-					+ fieldNames[0] + "), foreign key (" + fieldNames[3] + ") references " + pDAO.getTableName() + "("
+					+ fieldNames[0] + "), foreign key (" + fieldNames[3] + ") references " + pDAO.getTableNames()[0] + "("
 					+ fieldNames[3] + "), unique key(" + fieldNames[1] + "))";
 			stmt.executeUpdate(MySqlCommFun.CREATE_TABLE_INE + this.tableName + createCMDSuffix);
 		} catch (SQLException e) {
@@ -175,9 +175,13 @@ public class MySqlCompanyDAO extends CompanyDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String getTableName() {
-		return this.tableName;
+	public String[] getTableNames() {
+		String[] tablenames = {this.tableName};
+		return tablenames;
 	}
 
 }

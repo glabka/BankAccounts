@@ -170,9 +170,13 @@ public class MySqlPersonDAO extends PersonDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String getTableName() {
-		return this.tableName;
+	public String[] getTableNames() {
+		String[] tablenames = {this.tableName};
+		return tablenames;
 	}
 
 }
