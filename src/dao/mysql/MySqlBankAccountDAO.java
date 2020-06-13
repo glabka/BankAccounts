@@ -20,7 +20,7 @@ public class MySqlBankAccountDAO extends BankAccountDAO {
 	private Statement stmt;
 
 	private static String[] fieldNames = { "bank_code", "account_num", "account_balace" };
-	private static String[] fieldTypes = { MySqlCommFun.varchar(5) + MySqlCommFun.NOT_NULL,
+	private static String[] fieldTypes = { MySqlCommFun.characters(5) + MySqlCommFun.NOT_NULL,
 			MySqlCommFun.varchar(12) + MySqlCommFun.NOT_NULL, MySqlCommFun.bigInt(20) };
 	private String tableName = "bank_accounts";
 

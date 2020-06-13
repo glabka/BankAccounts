@@ -13,6 +13,10 @@ public class MySqlCommFun {
 	public static final String CREATE_TABLE_INE = "create table if not exists ";
 	public static final String DROP_TABLE_IE = "drop table if exists ";
 	
+	public static String characters(int i) {
+		return "char(" + i + ")";
+	}
+	
 	public static String varchar(int i) {
 		return "varchar(" + i + ")";
 	}
@@ -23,6 +27,10 @@ public class MySqlCommFun {
 	
 	public static String bigInt(int i) {
 		return "bigint(" + i + ")";
+	}
+	
+	public static String binary(int i) {
+		return "binary(" + i + ")";
 	}
 	
 	/**
