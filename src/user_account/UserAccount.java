@@ -23,17 +23,17 @@ public class UserAccount implements Multiton{
 	private byte[] passwordHash;
 	private String salt;
 	private String emailAddress;
-	private int phoneNumber;
+	private String phoneNumber;
 
 	private List<BankAccount> bankAccounts;
 
 	private UserAccount(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) {
+			byte[] passwordHash, String salt, String emailAddress, String phoneNumber) {
 		prepareFileds(userAccountID, bc, accountOwner, usernameHash, passwordHash, salt, emailAddress, phoneNumber);
 	}
 
 	private void prepareFileds(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) {
+			byte[] passwordHash, String salt, String emailAddress, String phoneNumber) {
 		this.userAccountID = userAccountID;
 		this.bankCode = bc;
 		this.accountOwner = accountOwner;
@@ -67,8 +67,8 @@ public class UserAccount implements Multiton{
 	 * @return
 	 * @throws InstanceAlreadyExistsException 
 	 */
-	public static UserAccount getInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
-			byte[] passwordHash, String salt, String emailAddress, int phoneNumber) throws InstanceAlreadyExistsException{
+	public static UserAccount createInstance(int userAccountID, BankCode bc, BankAccountOwner accountOwner, byte[] usernameHash,
+			byte[] passwordHash, String salt, String emailAddress, String phoneNumber) throws InstanceAlreadyExistsException{
 		UserAccount userAccount = userAccounts.get(userAccountID);
 		if (userAccount == null) {
 			return new UserAccount(userAccountID, bc, accountOwner, usernameHash, passwordHash, salt, emailAddress,
@@ -99,6 +99,10 @@ public class UserAccount implements Multiton{
 		} else {
 			return false;
 		}
+	}
+	
+	public BankAccount[] getBankAccounts() {
+		return bankAccounts.toArray(new BankAccount[bankAccounts.size()]);
 	}
 	
 	public void changeUsernameHash(byte[] usernameHash) {
@@ -138,11 +142,11 @@ public class UserAccount implements Multiton{
 		this.emailAddress = emailAddress;
 	}
 
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(int phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

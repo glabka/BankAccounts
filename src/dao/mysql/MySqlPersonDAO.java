@@ -24,9 +24,9 @@ public class MySqlPersonDAO extends PersonDAO {
 	private Statement stmt;
 	private SimpleDateFormat dateFormat;
 
-	private static String[] fieldNames = { "person_id", "country", "first_name", "middle_name", "last_name",
+	private static String[] fieldNames = {"person_id", "country", "first_name", "middle_name", "last_name",
 			"brithdate" };
-	private static String[] fieldTypes = { MySqlCommFun.integer(11), MySqlCommFun.varchar(2) + MySqlCommFun.NOT_NULL,
+	private static String[] fieldTypes = {MySqlCommFun.integer(11), MySqlCommFun.varchar(2) + MySqlCommFun.NOT_NULL,
 			MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL, MySqlCommFun.varchar(30),
 			MySqlCommFun.varchar(30) + MySqlCommFun.NOT_NULL, MySqlCommFun.varchar(10) + MySqlCommFun.NOT_NULL };
 	private String tableName = "people";

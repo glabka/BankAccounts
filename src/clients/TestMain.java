@@ -1,12 +1,14 @@
 package clients;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.BankAccountDAO;
-import dao.CompanyDAO;
+import com.neovisionaries.i18n.CountryCode;
+
+import bank_account.BankAccount;
 import dao.GenericDAO;
-import dao.PersonDAO;
 import dao.UserAccountDAO;
 import dao.mysql.MySqlBankAccountDAO;
 import dao.mysql.MySqlCompanyDAO;
@@ -16,10 +18,14 @@ import database.DatabaseSetup;
 import database.MySqlDatabaseConnectionManager;
 import database.MySqlTableDropper;
 import database.TableDropper;
+import domain.BankCode;
+import domain.Person;
+import user_account.UserAccount;
+import user_account.UserAccountFactory;
 
 public class TestMain {
 	// TODO input verification in Person, Company, BankAccount, UserAccount...
-	// TODO add InstanceAlreadySavedException into saving logic of DAO classes
+	// TODO change arrays in DAO classes into LinkedHashMap
 
 	public static void main(String[] args) throws Exception {
 //		Person p1 = Person.getIstance(0, "Helen", null, "Miowic");
@@ -175,16 +181,30 @@ public class TestMain {
 		
 		MySqlDatabaseConnectionManager dcm = new MySqlDatabaseConnectionManager();
 		List<GenericDAO<?>> daos = new ArrayList<>();
-		PersonDAO pDAO = new MySqlPersonDAO(dcm);
+		MySqlPersonDAO pDAO = new MySqlPersonDAO(dcm);
 		daos.add(pDAO);
-		CompanyDAO cDAO = new MySqlCompanyDAO(dcm, pDAO);
+		MySqlCompanyDAO cDAO = new MySqlCompanyDAO(dcm, pDAO);
 		daos.add(cDAO);
-		BankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
+		MySqlBankAccountDAO baDAO = new MySqlBankAccountDAO(dcm);
 		daos.add(baDAO);
-		UserAccountDAO uaDAO = new MySqlUserAccountDAO();
+		UserAccountDAO uaDAO = new MySqlUserAccountDAO(dcm, baDAO, pDAO, cDAO);
 		daos.add(uaDAO);
 		TableDropper td = new MySqlTableDropper(dcm);
 		DatabaseSetup.setUpDatabase(daos, td);
+		
+		// creating user account
+		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Person p = Person.createNewInstance(1, CountryCode.CZ, "Řehoř", null, "Novák", formatter.parse("12/03/1998"));
+		UserAccountFactory uaf = new UserAccountFactory();
+		UserAccount ua = uaf.createInstance(BankCode.C3030, p, "rehor", "root", "rehor.novak@seznam.cz", "+420732195755");
+		
+		BankAccount ba = BankAccount.createNewInstance(BankCode.C3030, "11111111111", 0);
+		ua.addBankAccount(ba);
+		BankAccount ba2 = BankAccount.createNewInstance(BankCode.C3030, "0123456789", 10);
+		ua.addBankAccount(ba2);
+		
+		uaDAO.saveInstance(ua);
+		
 	}
 
 }

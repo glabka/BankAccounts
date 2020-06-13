@@ -47,7 +47,10 @@ class PersonDAOTest {
 	private String[] lastNames = { "Miowic", "Green" };
 	private Date[] birthdays = new Date[2];
 	private MySqlDatabaseConnectionManager dcm;
-	private PersonDAO pDAO;
+	private MySqlPersonDAO pDAO;
+	private MySqlCompanyDAO cDAO;
+	private MySqlBankAccountDAO baDAO;
+	private MySqlUserAccountDAO uaDAO;
 	private SimpleDateFormat dateFormat;
 
 	@BeforeAll
@@ -57,9 +60,9 @@ class PersonDAOTest {
 		List<GenericDAO<?>> daos = new ArrayList<>();
 		pDAO = new MySqlPersonDAO(dcm);
 		daos.add(pDAO);
-		daos.add(new MySqlBankAccountDAO(dcm));
-		daos.add(new MySqlCompanyDAO(dcm, pDAO));
-		daos.add(new MySqlUserAccountDAO());
+		daos.add(baDAO = new MySqlBankAccountDAO(dcm));
+		daos.add(cDAO = new MySqlCompanyDAO(dcm, pDAO));
+		daos.add(uaDAO = new MySqlUserAccountDAO(dcm, baDAO, pDAO, cDAO));
 		DatabaseSetup.setUpDatabase(daos, new MySqlTableDropper(dcm));
 
 		dateFormat = new SimpleDateFormat("MM/dd/yyyy");

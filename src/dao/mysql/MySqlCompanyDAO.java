@@ -17,7 +17,7 @@ import domain.Person;
 public class MySqlCompanyDAO extends CompanyDAO {
 
 	private MySqlDatabaseConnectionManager dcm;
-	private PersonDAO pDAO;
+	private MySqlPersonDAO pDAO;
 	private Connection con;
 	private Statement stmt;
 
@@ -27,7 +27,7 @@ public class MySqlCompanyDAO extends CompanyDAO {
 			MySqlCommFun.integer(11) };
 	private String tableName = "companies";
 
-	public MySqlCompanyDAO(MySqlDatabaseConnectionManager mySqlDcm, PersonDAO pDAO)
+	public MySqlCompanyDAO(MySqlDatabaseConnectionManager mySqlDcm, MySqlPersonDAO pDAO)
 			throws ClassNotFoundException, DatabaseException {
 		this.dcm = mySqlDcm;
 		this.pDAO = pDAO;
