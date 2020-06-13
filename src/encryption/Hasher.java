@@ -7,5 +7,6 @@ public abstract class Hasher {
 		return hasher;
 	}
 	
+	public abstract int getHashLength();
 	public abstract byte[] hash(String stringForHashing);
 }
