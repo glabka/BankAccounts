@@ -72,6 +72,7 @@ public class Company implements BankAccountOwner, Multiton{
 		this.executiveDirector = executiveDirector;
 	}
 
+	@Override
 	public int getId() {
 		return id;
 	}

@@ -72,6 +72,7 @@ public class Person implements BankAccountOwner, Multiton{
 		return new ArrayList<Person>(people.values());
 	}
 
+	@Override
 	public int getId() {
 		return id;
 	}
